@@ -252,4 +252,54 @@ for player in players[:3]:
     print(player)
 ```
 
-- 4.4.3 复制列表            
+- 4.4.3 复制列表 **[:]**           
+```python
+# 复制列表
+my_foods = ['pizza', 'falafel', 'carrot cake']
+friend_foods = my_foods[:]
+print(my_foods)
+print(friend_foods)
+print('当我们做出改变的情况的时候')
+friend_foods.pop()
+print(my_foods)
+print(friend_foods)
+```
+
+[示例4.2](./04章、操作列表/示例4.2.py)
+
+### 4.5 元组      
+然而，有时候你需要创建一系列不可修改的元素，元组可以满足这种需求。Python 将不能修改的值称为 **不可变的** ，而不可变的列表被称为 **元组** 。         
+
+- 4.5.1 　定义元组           
+```python
+dimensions = (200, 50)  # 用大括号来定义元组
+print(dimensions[0])
+print(dimensions[1])
+dimensions[0] = 250 # 这个地方会报错，因为定义了元组，就不允许修改了
+print(dimensions)
+```
+
+- 4.5.2 　遍历元组中的所有值      
+```python
+# 遍历元组
+dimensions = (200, 50)
+for dimension in dimensions:
+    print(dimension)
+```
+
+- 4.5.3 　修改元组变量         
+虽然不能修改元组的元素，但可以给存储元组的变量赋值。          
+```python
+# 修改元组变量
+dimensions = (200, 50)
+print("Original dimensions:")
+for dimension in dimensions:
+    print(dimension)
+
+dimensions = (400, 100)
+print("\nModified dimensions:")
+for dimension in dimensions:
+    print(dimension)
+```
+     
+
