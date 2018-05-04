@@ -75,7 +75,7 @@ message = "Happy " + str(age) + "rd Birthday!"
 print(message)
 ```
 
-##<div id='class03'>第 3  章　列表简介</div>      
+## <div id='class03'>第 3  章　列表简介</div>      
 ### 3.2 　修改、添加和删除元素         
 - 3.2.2 　在列表中添加元素       
 1、  在列表末尾添加元素 **append('ducati')**         
@@ -169,7 +169,7 @@ print(len(cars))
 
 
 
-##<div id='class04'>第 4  章　操作列表</div> 
+## <div id='class04'>第 4  章　操作列表</div> 
 ### 4.1 　遍历整个列表
 ```python
 # for循环遍历
