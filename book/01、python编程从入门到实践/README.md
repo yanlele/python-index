@@ -318,5 +318,35 @@ for car in cars:
 
 ### 5.2 　条件测试
 - 5.2.5 　检查多个条件         
-你可能想同时检查多个条件，例如，有时候你需要在两个条件都为 True 时才执行相应的操作
+你可能想同时检查多个条件，例如，有时候你需要在两个条件都为 True 时才执行相应的操作。在这些情况下，关键字 **and 和 or** 可助你一臂之力。       
+1、使用 and 检查多个条件 (相当于 &&)        
+2、 使用 or 检查多个条件 (相当于 ||)        
+
+- 5.2.6 　检查特定值是否包含在列表中 **使用关键字 in**         
+```python
+# 检查特定值是否包含在列表中
+requested_toppings = ['mushrooms', 'onions', 'pineapple']
+print('mushrooms' in requested_toppings)
+print('yanle' in requested_toppings)
+```
+
+- 5.2.7 　检查特定值是否不包含在列表中 **使用关键字 not in**        
+```python
+# 检查特定值是否不包含在列表中
+banned_users = ['andrew', 'carolina', 'david']
+user = 'marie'
+if user not in banned_users:
+    print(user.title() + ', you can post a response if you wish!')
+```
+
+### 5.3 　 if 语句
+- 5.3.1 　简单的 if  语句         
+简单的语法结构:    
+```
+if conditional_test:
+    do something
+```
+
+
+
 
