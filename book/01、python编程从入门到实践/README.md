@@ -301,5 +301,21 @@ print("\nModified dimensions:")
 for dimension in dimensions:
     print(dimension)
 ```
-     
+
+
+## <div id='class05'>第 5  章　 if  语句</div> 
+
+### 5.1 　一个简单示例
+```python
+cars = ['audi', 'bmw', 'subaru', 'toyota']
+for car in cars:
+    if car == 'bmw':
+        print(car.upper())
+    else:
+        print(car.title())
+```
+
+### 5.2 　条件测试
+- 5.2.5 　检查多个条件         
+你可能想同时检查多个条件，例如，有时候你需要在两个条件都为 True 时才执行相应的操作
 
