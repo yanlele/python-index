@@ -5,6 +5,8 @@
 - [第 3  章　列表简介](#class03)
 - [第 4  章　操作列表](#class04)
 - [第 5  章　if语句](#class05)
+- [第 6  章　字典](#class06)
+
 
 ## <div id='class02'>第 2  章　变量和简单数据类型</div>
 ### 2.3字符串
@@ -358,6 +360,20 @@ if conditional_test:
 
 ### 5.4 　使用 if 语句处理列表                
 - 5.4.3 　使用多个列表     
+```python
+# 使用多个列表
+available_toppings = ['mushrooms', 'olives', 'green peppers', 'pepperoni', 'pineapple', 'extra cheese']
+requested_toppings = ['mushrooms', 'french fries', 'extra cheese']
+
+for requested_topping in requested_toppings:
+    if requested_topping in available_toppings:
+        print('Adding ' + requested_topping + '.')
+    else:
+        print("Sorry, we don't have " + requested_topping + '.')
+print('\nFinished making your pizza!')
+```
+
+## <div id='class06'>第 6  章　字典</div>        
 
 
 
