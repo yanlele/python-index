@@ -4,6 +4,7 @@
 - [第 2  章　变量和简单数据类型](#class02)
 - [第 3  章　列表简介](#class03)
 - [第 4  章　操作列表](#class04)
+- [第 5  章　if语句](#class05)
 
 ## <div id='class02'>第 2  章　变量和简单数据类型</div>
 ### 2.3字符串
@@ -346,6 +347,17 @@ if user not in banned_users:
 if conditional_test:
     do something
 ```
+
+- 5.3.2 　 if-else  语句             
+
+- 5.3.3 　 if-elif-else  结构          
+
+- 5.3.4 　使用多个 elif  代码块         
+
+- 5.3.5 　省略 else  代码块  Python 并不要求 if-elif 结构后面必须有 else 代码块。            
+
+### 5.4 　使用 if 语句处理列表                
+- 5.4.3 　使用多个列表     
 
 
 
