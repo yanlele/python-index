@@ -373,7 +373,57 @@ for requested_topping in requested_toppings:
 print('\nFinished making your pizza!')
 ```
 
-## <div id='class06'>第 6  章　字典</div>        
+## <div id='class06'>第 6  章　字典</div>      
+在 Python 中， 字典 是一系列 键 — 值对 。每个 键 都与一个值相关联，你可以使用键来访问与之相关联的值。
+  
+### 6.1 　一个简单的字典            
+```python
+alien_0 = {'color': 'green', 'points': 5}
+print(alien_0['color'])
+print(alien_0['points'])
+```
+
+### 6.2 　使用字典       
+- 6.2.1 　访问字典中的值        
+```python
+# 访问字典中的值
+alien_0 = {'color': 'green', 'points': 5}
+new_porints = alien_0['points']
+print('You just earned ' + str(new_porints) + ' points!')
+```
+
+- 6.2.2 　添加键 — 值对       
+```python
+# 添加键值对
+alien_0 = {'color': 'green', 'points': 5}
+print(alien_0)
+alien_0['x_position'] = 0
+alien_0['y_position'] = 25
+print(alien_0)
+```
+
+- 6.2.3 　先创建一个空字典       
+```python
+# 先创建空字典
+alien_0 = {}
+alien_0['color'] = 'green'
+alien_0['points'] = 5
+print(alien_0)
+```
+
+- 6.2.4 　修改字典中的值        
+```python
+# 修改字典中的值
+alien_0 = {'color': 'green'}
+print("The alien is " + alien_0['color'] + ".")
+alien_0['color'] = 'yellow'
+print("The alien is now " + alien_0['color'] + ".")
+```
+
+
+
+
+
 
 
 
