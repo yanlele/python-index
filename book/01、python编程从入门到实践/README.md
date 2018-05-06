@@ -420,6 +420,107 @@ alien_0['color'] = 'yellow'
 print("The alien is now " + alien_0['color'] + ".")
 ```
 
+一个简单的例子     
+```python
+# 一个数据字典相关的示例
+alien_0 = {'x_position': 0, 'y_position': 25, 'speed': 'medium'}
+print("Original x-position: " + str(alien_0['x_position']))
+if alien_0['speed'] == 'slow':
+    x_increment = 1
+elif alien_0['speed'] == 'medium':
+    x_increment = 2
+else:
+    x_increment = 3
+
+alien_0['x_position'] = alien_0['x_position'] + x_increment
+print('NEW x-position: ' + str(alien_0['x_position']))
+```
+
+- 6.2.5 　删除键 — 值对       
+对于字典中不再需要的信息，可使用 **del** 语句将相应的键 — 值对彻底删除。使用 **del** 语句时，必须指定字典名和要删除的键。     
+```python
+# 删除键值对
+alien_0 = {'color': 'green', 'points': 5}
+print(alien_0)
+del alien_0['points']
+print(alien_0)
+```
+
+### 6.3 　遍历字典       
+- 6.3.1 　遍历所有的键 — 值对        
+使用的语法为： **for k, v in user_0.items()**          
+```python
+# 便利所有的键值对
+user_0 = {
+    'username': 'efermi',
+    'first': 'enrico',
+    'last': 'fermi',
+}
+for key,value in user_0.items():
+    print('\nkey: ' + key)
+    print('value: ' + value)
+```
+
+- 6.3.2 　遍历字典中的所有键 **keys()**           
+```python
+# 遍历字典中的所有键
+favorite_languages = {
+    'jen': 'python',
+    'sarah': 'c',
+    'edward': 'ruby',
+    'phil': 'python',
+}
+for name in favorite_languages.keys():
+    print(name.title())
+```
+
+- 6.3.3 　按顺序遍历字典中的所有键       
+为此，可使用函数 sorted() 来获得按特定顺序排列的键列表的副本         
+```python
+# 按顺序遍历字典中的所有键
+favorite_languages = {
+'jen': 'python',
+'sarah': 'c',
+'edward': 'ruby',
+'phil': 'python',
+}
+for name in sorted(favorite_languages.keys()):
+    print(name.title() + ", thank you for taking the poll.")
+```
+
+- 6.3.4 　遍历字典中的所有值 **values()**          
+```python
+favorite_languages = {
+    'jen': 'python',
+    'sarah': 'c',
+    'edward': 'ruby',
+    'phil': 'python',
+}
+print("The following languages have been mentioned:")
+for language in favorite_languages.values():
+    print(language.title())
+```
+为剔除重复项，可使用 **集合（ set ）**。 集合 类似于列表，但每个元素都必须是独一无二的：          
+```python
+# 使用set() 祛除重复项
+favorite_languages = {
+    'jen': 'python',
+    'sarah': 'c',
+    'edward': 'ruby',
+    'phil': 'python',
+}
+print("The following languages have been mentioned:")
+for lang in set(favorite_languages.values()):
+    print(lang.title())
+```      
+
+
+
+
+
+
+
+
 
 
 
