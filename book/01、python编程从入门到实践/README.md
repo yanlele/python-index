@@ -622,7 +622,46 @@ else:
 -  7.1.3 求模运算符 **求模运算符 (%)**            
 
 
-### 7.2 while 循环简介      
+### 7.2 while 循环简介              
+在用户选择的时候退出          
+```python
+prompt = "\nTell me something, and I will repeat it back to you:"
+prompt += "\nEnter 'quit' to end the program. "
+message = ""
+while message != 'quit':
+    message = input(prompt)
+    if message != 'quit':
+        print(message)
+```
+
+- 7.2.4 使用break 退出循环            
+要立即退出while 循环，不再运行循环中余下的代码，也不管条件测试的结果如何，可使用break 语句。            
+```python
+# break的使用
+prompt = "\nPlease enter the name of a city you have visited:"
+prompt += "\n(Enter 'quit' when you are finished.) "
+while True:
+    city = input(prompt)
+    if city == 'quit':
+        break
+    else:
+        print("I'd love to go to " + city.title() + "!")
+```
+
+- 7.2.5 在循环中使用continue         
+要返回到循环开头，并根据条件测试结果决定是否继续执行循环，可使用continue 语句，它不像break 语句那样不再执行余下的代码并退出整个循环。例如，来看一个从1数 到10，但只打印其中偶数的循环:           
+```python
+# continue
+current_number = 0
+while current_number < 10:
+    current_number += 1
+    if current_number % 2 == 0:
+        continue
+    print(current_number)
+``` 
+
+### 7.3 使用while 循环来处理列表和字典          
+
 
 
 
