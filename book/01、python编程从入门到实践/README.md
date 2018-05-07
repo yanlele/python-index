@@ -514,6 +514,31 @@ for lang in set(favorite_languages.values()):
     print(lang.title())
 ```      
 
+### 6.4 　嵌套         
+- 6.4.1 　字典列表       
+```python
+# 字典列表
+alien_0 = {'color': 'green', 'points': 5}
+alien_1 = {'color': 'yellow', 'points': 10}
+alien_2 = {'color': 'red', 'points': 15}
+aliens = [alien_0, alien_1, alien_2]
+for alien in aliens:
+    print(alien)
+```
+
+代码自动生成          
+```python
+# 代码自动生成
+aliens = []
+for alien_number in range(30):
+    new_alien = {'color': 'green', 'points': 5, 'speed': 'slow'}
+    aliens.append(new_alien)
+print(aliens.__len__())
+for alien in aliens[:5]:
+    print(alien)
+print('......')
+print('total number of aliens: ' + str(len(aliens)))
+```      
 
 
 
