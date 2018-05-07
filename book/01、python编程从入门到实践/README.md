@@ -590,11 +590,34 @@ for username,user_info in users.items():
 
     print('\tFull name: ' + full_name.title())
     print('\tLocation: ' + location.title())
-
 ```
 
+## <div id='class07'>第 7 章 用户输入和while 循环</div> 
+### 7.1 函数input() 的工作原理         
+函数input() 让程序暂停运行，等待用户输入一些文本。获取用户输入后，Python将其存储在一个变量中，以方便你使用。           
+```python
+# 第一个示例
+message = input("Tell me something, and I will repeat it back to you: ")
+print(message)
+```
 
-
+- 7.1.1 编写清晰的程序         
+```python
+prompt = "If you tell us who you are, we can personalize the messages you see."
+prompt += "\nWhat is your first name? "
+name = input(prompt)
+print("\nHello, " + name + "!")
+```
+- 7.1.2 使用int() 来获取数值输入         
+```python
+# 用int() 获取用户输入的数字类型
+height = input("How tall are you, in inches? ")
+height = int(height)
+if height >= 36:
+    print("\nYou're tall enough to ride!")
+else:
+    print("\nYou'll be able to ride when you're a little older.")
+```
 
 
 
