@@ -702,6 +702,17 @@ for name, response in responses.items():
 ```
 
 
+## <div id='class08'>第 8 章 函数</div>
+### 8.1 定义函数            
+```python
+def get_user(name):
+    print(name)
+
+
+get_user('yanle')
+```
+
+
 
 
 
