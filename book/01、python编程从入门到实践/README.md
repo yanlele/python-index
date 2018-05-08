@@ -712,6 +712,119 @@ def get_user(name):
 get_user('yanle')
 ```
 
+### 8.2 传递实参
+- 8.2.2 　关键字实参          
+```python
+# 关键字实参
+def describe_pet(animal_type, pet_name):
+    """ 显示宠物的信息 """
+    print("\nI have a " + animal_type + ".")
+    print("My " + animal_type + "'s name is " + pet_name.title() + ".")
+
+
+describe_pet(animal_type='hamster', pet_name='harry')
+```
+关键字实参的顺序无关紧要，因为 Python 知道各个值该存储到哪个形参中。下面两个函数调用是等效的：         
+```python
+def describe_pet(animal_type, pet_name):
+    """ 显示宠物的信息 """
+    print("\nI have a " + animal_type + ".")
+    print("My " + animal_type + "'s name is " + pet_name.title() + ".")
+    
+    
+describe_pet(animal_type='hamster', pet_name='harry')
+describe_pet(pet_name='harry', animal_type='hamster')
+```
+
+- 8.2.3 　默认值            
+```python
+# 默认值
+def describe_pet(pet_name, animal_type='dog'):
+    """ 显示宠物的信息 """
+    print("\nI have a " + animal_type + ".")
+    print("My " + animal_type + "'s name is " + pet_name.title() + ".")
+    
+
+describe_pet(pet_name='willie')
+```
+如果要描述的动物不是小狗，可使用类似于下面的函数调用：         
+```
+describe_pet(pet_name='harry', animal_type='hamster')
+```
+
+- 8.2.4 　等效的函数调用            
+```
+#  一条名为 Willie 的小狗
+describe_pet('willie')
+describe_pet(pet_name='willie')
+
+#  一只名为 Harry 的仓鼠
+describe_pet('harry', 'hamster')
+describe_pet(pet_name='harry', animal_type='hamster')
+describe_pet(animal_type='hamster', pet_name='harry')
+```
+
+### 8.3 　返回值            
+- 8.3.1 　返回简单值          
+```python
+# 简单的返回值示例
+def get_name(first_name, last_name):
+    full_name = first_name + last_name
+    return full_name
+
+
+musican = get_name('yan', 'le')
+print(musican)
+```
+
+- 8.3.2 　让实参变成可选的           
+```python
+def get_name (first_name, last_name, middle_name):
+    if middle_name:
+        full_name = first_name + middle_name +last_name
+    else:
+        full_name = first_name + middle_name
+    return full_name
+
+
+my_name = get_name('yan ', 'le', 'le')
+print(my_name)
+```
+
+- 8.3.3 　返回字典           
+```python
+def build_person(first_name, last_name):
+    person = {'first_name': first_name, 'last_name': last_name}
+    return person
+
+
+get_person = build_person('yanle', 'le')
+print(get_person)
+```
+
+- 8.3.4 　结合使用函数和 while  循环              
+```python
+def get_name(first_name, last_name):
+    return first_name + last_name
+
+
+while True:
+    print('输入你的名字')
+    print('输入q退出程序')
+    first_name = input('First name: ')
+    if first_name == 'q':
+        break
+    last_name = input('Last name: ')
+    if last_name == 'q':
+        break
+    full_name = get_name(first_name, last_name)
+    print(full_name)
+```
+
+- 8.4 　传递列表         
+
+
+
 
 
 
