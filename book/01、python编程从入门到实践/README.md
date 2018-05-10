@@ -850,7 +850,7 @@ print_models(unprinted_designs, completed_models)
 show_completed_models(completed_models)
 ```
 
-- 8.5 　传递任意数量的实参            
+## 8.5 　传递任意数量的实参            
 函数只有一个形参 *toppings ，但不管调用语句提供了多少实参，这个形参都将它们统统收入囊中：          
 ```python
 # 传递任意数量的实参
@@ -865,9 +865,40 @@ make_pizza('pepperoni')
 make_pizza('mushrooms', 'green peppers', 'extra cheese')
 ```           
 
+- 8.5.1 　结合使用位置实参和任意数量实参            
+如果要让函数接受不同类型的实参，必须在函数定义中将接纳任意数量实参的形参放在最后。           
+```python
+def make(size, *toppings):
+    print('\nsize ' + str(size) + '-inch pizza with the following toppings')
+    for topping in toppings:
+        print('-' + topping)
 
 
+make(16, 'yan')
+make(12, 'yanle', 'lele', 'bilibli')
+```
 
+- 8.5.2 　使用任意数量的关键字实参           
+有时候，需要接受任意数量的实参，但预先不知道传递给函数的会是什么样的信息。在这种情况下，可将函数编写成能够接受任意数量的键 — 值对 —— 调用语句提供了多少就接受多少。           
+```python
+# 使用任意数量的关键字实参
+def build_profile(first, last, **user_info):
+    """ 创建一个字典，其中包含我们知道的有关用户的一切 """
+    profile = {}
+    profile['first_name'] = first
+    profile['last_name'] = last
+    for key, value in user_info.items():
+        profile[key] = value
+    return profile
+
+
+user_profile = build_profile('albert', 'einstein',
+                             location='princeton',
+                             field='physics')
+print(user_profile)
+```
+
+### 8.6 　将函数存储在模块中          
 
 
 
