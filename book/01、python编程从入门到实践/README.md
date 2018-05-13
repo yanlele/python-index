@@ -899,6 +899,29 @@ print(user_profile)
 ```
 
 ### 8.6 　将函数存储在模块中          
+要让函数是可导入的，得先创建模块。 模块 是扩展名为 .py 的文件，包含要导入到程序中的代码。            
+例如我们建立一个test.py的模块文件：           
+```python
+a = 7
+
+
+def make_pizza(size, *toppings):
+    print('\n披萨的大小为： ' + str(size))
+    for topping in toppings:
+        print('- ' + topping)
+```
+
+接下来，我们在 test.py 所在的目录中创建另一个名为 making_pizzas.py 的文件，这个文件导入刚创建的模块，再调用 make_pizza() 两次：
+```python
+import test
+
+
+test.make_pizza(16, 'pepperoni')
+test.make_pizza(12, 'mushrooms', 'green peppers', 'extra cheese')
+print(test.a)
+```
+通过这个语法来实现的调用： **module_name.function_name()**               
+
 
 
 
