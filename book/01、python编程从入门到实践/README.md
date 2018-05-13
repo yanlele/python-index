@@ -898,7 +898,8 @@ user_profile = build_profile('albert', 'einstein',
 print(user_profile)
 ```
 
-### 8.6 　将函数存储在模块中          
+### 8.6 　将函数存储在模块中      
+- 8.6.1、导入整个模块            
 要让函数是可导入的，得先创建模块。 模块 是扩展名为 .py 的文件，包含要导入到程序中的代码。            
 例如我们建立一个test.py的模块文件：           
 ```python
@@ -922,9 +923,33 @@ print(test.a)
 ```
 通过这个语法来实现的调用： **module_name.function_name()**               
 
+- 8.6.2、导入特定的函数           
+你还可以导入模块中的特定函数，这种导入方法的语法如下：**from module_name import function_name**                
+通过用逗号分隔函数名，可根据需要从模块中导入任意数量的函数：**from module_name import function_0, function_1, function_2**            
 
+- 8.6.3、使用 as  给函数指定别名            
+通用语法如下：**from module_name import function_name as fn**          
+```python
+from pizza import make_pizza as mp
+mp(16, 'pepperoni')
+mp(12, 'mushrooms', 'green peppers', 'extra cheese')
+```
 
+- 8.6.4 　使用 as  给模块指定别名         
+你还可以给模块指定别名。通过给模块指定简短的别名（如给模块 pizza 指定别名 p ），让你能够更轻松地调用模块中的函数。          
+```python
+import pizza as p
+p.make_pizza(16, 'pepperoni')
+p.make_pizza(12, 'mushrooms', 'green peppers', 'extra cheese')
+```
 
+- 8.6.5 　导入模块中的所有函数         
+使用星号（ * ）运算符可让 Python 导入模块中的所有函数：               
+```python
+from pizza import *
+make_pizza(16, 'pepperoni')
+make_pizza(12, 'mushrooms', 'green peppers', 'extra cheese')
+```
 
 
 
