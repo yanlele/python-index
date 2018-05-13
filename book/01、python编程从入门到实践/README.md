@@ -951,6 +951,30 @@ make_pizza(16, 'pepperoni')
 make_pizza(12, 'mushrooms', 'green peppers', 'extra cheese')
 ```
 
+## <div id='class089>第 9 章 类</div>
+
+### 9.1 　创建和使用类         
+- 9.1.1 　创建 Dog  类          
+根据 Dog 类创建的每个实例都将存储名字和年龄。我们赋予了每条小狗蹲下（ sit() ）和打滚（ roll_over() ）的能力              
+```python
+class Dog():
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def sit(self):
+        print(self.name.title() + ' is now sitting.')
+
+    def roll_over(self):
+        print(self.name.title() + ' rolled over!')
+```
+
+9.1.1.1、方法 __init__()           
+类中的函数称为 方法 ；        
+方法 __init__() 是一个特殊的方法，每当你根据 Dog 类创建新实例时， Python 都会自动运行它。           
+**我们将方法 __init__() 定义成了包含三个形参： self 、 name 和 age 。在这个方法的定义中，形参 self 必不可少，还必须位于其他形参的前面。**        
+因为 Python 调用这个 __init__() 方法来创建 Dog 实例时，将自动传入实参 self 。每个与类相关联的方法调用都自动传递实参 self ，它是一个指向实例本身的引用，让实例能够访问类中的属性和方法。          
+self.name = name 获取存储在形参 name 中的值，并将其存储到变量 name 中，然后该变量被关联到当前创建的实例。 self.age = age 的作用与此类似。像这样可通过实例访问的变量称为 **属性**               
 
 
 
