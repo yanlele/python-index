@@ -1224,4 +1224,7 @@ my_tesla.battery.describe_battery()
 my_tesla.battery.get_range()
 ```
 
-**9.4 　导入类**
+### 9.4 　导入类
+[这个就可以直接看实例代码了](./04章、操作列表)
+
+
