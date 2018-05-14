@@ -976,12 +976,90 @@ class Dog():
 因为 Python 调用这个 __init__() 方法来创建 Dog 实例时，将自动传入实参 self 。每个与类相关联的方法调用都自动传递实参 self ，它是一个指向实例本身的引用，让实例能够访问类中的属性和方法。          
 self.name = name 获取存储在形参 name 中的值，并将其存储到变量 name 中，然后该变量被关联到当前创建的实例。 self.age = age 的作用与此类似。像这样可通过实例访问的变量称为 **属性**               
 
+- 9.1.2 　根据类创建实例            
+```python
+class Dog():
+    # 省略
+
+my_dog = Dog('hillie', 6)
+print('my dog name is ' + my_dog.name.title() + ' .')
+print('my dog age is ' + str(my_dog.age)+ 'yours lod')
+```
+
+调用方法            
+根据 Dog 类创建实例后，就可以使用句点表示法来调用 Dog 类中定义的任何方法。          
+```python
+class Dog():
+    # 省略
+
+my_dog = Dog('hillie', 6)
+print('my dog name is ' + my_dog.name.title() + ' .')
+print('my dog age is ' + str(my_dog.age)+ 'yours lod')
+my_dog.sit()
+my_dog.roll_over()
+```
+
+创建多个实例            
+```python
+class Dog():
+    --snip--
+    
+my_dog = Dog('willie', 6)
+your_dog = Dog('lucy', 3)
+print("My dog's name is " + my_dog.name.title() + ".")
+print("My dog is " + str(my_dog.age) + " years old.")
+my_dog.sit()
+print("\nYour dog's name is " + your_dog.name.title() + ".")
+print("Your dog is " + str(your_dog.age) + " years old.")
+your_dog.sit()
+```
 
 
+### 9.2 　使用类和实例         
+- 9.2.1 　 Car  类          
+下面来编写一个表示汽车的类，它存储了有关汽车的信息，还有一个汇总这些信息的方法：            
+```python
+class Car():
+    """ 一次模拟汽车的简单尝试 """
+    def __init__(self, make, model, year):
+        """ 初始化描述汽车的属性 """
+        self.make = make
+        self.model = model
+        self.year = year
+    def get_descriptive_name(self):
+        """ 返回整洁的描述性信息 """
+        long_name = str(self.year) + ' ' + self.make + ' ' + self.model
+        return long_name.title()
+    
+    
+my_new_car = Car('audi', 'a4', 2016)
+print(my_new_car.get_descriptive_name())
+```
+
+- 9.2.2 　给属性指定默认值               
+**self.odometer_reading = 0**就是默认值                     
+```python
+class Car():
+    def __init__(self, make, model, year):
+        """ 初始化描述汽车的属性 """
+        self.make = make
+        self.model = model
+        self.year = year
+        self.odometer_reading = 0
+
+    def get_descriptive_name(self):
+        print('这里是其他代码块')
+
+    def read_odometer(self):
+        """ 打印一条指出汽车里程的消息 """
+        print("This car has " + str(self.odometer_reading) + " miles on it.")
 
 
+my_new_car = Car('audi', 'a4', 2016)
+print(my_new_car.get_descriptive_name())
+my_new_car.read_odometer()
+```            
 
 
-
-
+- 9.3 　继承               
 
