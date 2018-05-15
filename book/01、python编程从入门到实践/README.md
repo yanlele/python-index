@@ -1232,7 +1232,10 @@ my_tesla.battery.get_range()
 
 - 9.4.6 　在一个模块中导入另一个模块          
 有时候，需要将类分散到多个模块中，以免模块太大，或在同一个模块中存储不相关的类。将类存储在多个模块中时，你可能会发现一个模块中的类依赖于另一个模块中的类。在这种情况下，可在前一个模块中导入必要的类。             
+下面将 Car 类存储在一个模块中，并将 ElectricCar 和 Battery 类存储在另一个模块中。我们将第二个模块命名为 electric_car.py （这将覆盖前面创建的文件electric_car.py ），并将 Battery 和 ElectricCar 类复制到这个模块中：         
 
-下面将 Car 类存储在一个模块中，并将 ElectricCar 和 Battery 类存储在另一个模块中。我们将第二个模块命名为 electric_car.py （这将覆盖前面创建的文件electric_car.py ），并将 Battery 和 ElectricCar 类复制到这个模块中：             
+
+### 9.5 　 Python 标准库            
+             
 
 
