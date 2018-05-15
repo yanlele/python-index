@@ -951,7 +951,7 @@ make_pizza(16, 'pepperoni')
 make_pizza(12, 'mushrooms', 'green peppers', 'extra cheese')
 ```
 
-## <div id='class089>第 9 章 类</div>
+## <div id='class09>第 9 章 类</div>              
 
 ### 9.1 　创建和使用类         
 - 9.1.1 　创建 Dog  类          
@@ -1236,6 +1236,128 @@ my_tesla.battery.get_range()
 
 
 ### 9.5 　 Python 标准库            
-             
+```python
+from collections import OrderedDict
+
+favorite_languages = OrderedDict()
+
+favorite_languages['jen'] = 'python'
+favorite_languages['sarah'] = 'c'
+favorite_languages['edward'] = 'ruby'
+favorite_languages['phil'] = 'python'
+
+for name,language in favorite_languages.items():
+    print(name.title() + ' 最喜欢的语言是' + language.title())
+```       
+
+
+## <div id='class010>第 10  章　文件和异常</div>                            
+### 10.1 　从文件中读取数据          
+- 10.1.1 　读取整个文件            
+要读取文件，需要一个包含几行文本的文件。下面首先来创建一个文件，它包含精确到小数点后 30 位的圆周率值，且在小数点后每 10 位处都换行：          
+下面的程序打开并读取这个文件，再将其内容显示到屏幕上：         
+```python
+with open('pi_digits.txt') as file_object:
+    contents = file_object.read()
+    print(contents)
+```
+关键字 with 在不再需要访问文件后将其关闭。你只管打开文件，并在需要时使用它， Python 自会在合适的时候自动将其关闭。            
+相比于原始文件，该输出唯一不同的地方是末尾多了一个空行。为何会多出这个空行呢？因为 read() 到达文件末尾时返回一个空字符串，而将这个空字符串显示出来时就是一个空行。要删除多出来的空行，可在 print 语句中使用 **rstrip()** ：                
+```python
+with open('pi_digits.txt') as file_object:
+    contents = file_object.read()
+    print(contents.rstrip())
+```
+
+- 10.1.2 　文件路径          
+可使用 相对文件路 径来打开该文件夹中的文件。相对文件路径让 Python 到指定的位置去查找，而该位置是相对于当前运行的程序所在目录的。在 Linux 和 OS X 中，你可以这样编写代码： `with open('text_files/filename.txt') as file_object:`         
+这行代码让 Python 到文件夹 python_work 下的文件夹 text_files 中去查找指定的 .txt 文件。在 Windows 系统中，在文件路径中使用反斜杠（ \ ）而不是斜杠（ / ）： `with open('text_files\filename.txt') as file_object:`             
+
+绝对路径通常比相对路径更长，因此将其存储在一个变量中，再将该变量传递给 open() 会有所帮助。在 Linux 和 OS X 中，绝对路径类似于下面这样：              
+```python
+file_path = '/home/ehmatthes/other_files/text_files/filename.txt'
+with open(file_path) as file_object:
+```
+
+而在 Windows 系统中，它们类似于下面这样：           
+```python
+file_path = 'C:\Users\ehmatthes\other_files\text_files\filename.txt'
+with open(file_path) as file_object:
+```
+
+- 10.1.3 　逐行读取          
+```python
+filename = 'pi_digits.txt'
+
+with open(filename) as file_object:
+    for line in file_object:
+        print(line)
+```
+读取结果会出现了空白行，为何会出现这些空白行呢？因为在这个文件中，每行的末尾都有一个看不见的换行符，而 print 语句也会加上一个换行符，因此每行末尾都有两个换行符：一个来自文件，另一个来自 print 语句。要消除这些多余的空白行，可在 print 语句中使用 **rstrip()** ：             
+
+
+- 10.1.4 　创建一个包含文件各行内容的列表           
+```python
+filename = 'pi_digits.txt'
+
+with open(filename) as file_object:
+    lines = file_object.readlines()
+
+print(lines)
+for line in lines:
+    print(line.rstrip())
+```
+
+- 10.1.5 　使用文件的内容           
+将文件读取到内存中后，就可以以任何方式使用这些数据了。             
+```python
+filename = 'pi_digits.txt'
+with open(filename) as file_object:
+    lines = file_object.readlines()
+
+pi_string = ''
+for line in lines:
+    pi_string += line.strip()
+
+print(pi_string)
+print(len(pi_string))
+```
+在变量 pi_string 存储的字符串中，包含原来位于每行左边的空格，为删除这些空格，可使用 strip() 而不是 rstrip() ：          
+
+- 10.1.6 　包含一百万位的大型文件           
+前面我们分析的都是一个只有三行的文本文件，但这些代码示例也可处理大得多的文件。如果我们有一个文本文件，其中包含精确到小数点后 1 000 000 位而不是 30 位的圆周率值，也可创建一个包含所有这些数字的字符串。为此，我们无需对前面的程序做任何修改，只需将这个文件传递给它即可。在这里，我们只打印到小数点后 50 位，以免终端为显示全部 1 000 000 位而不断地翻滚：                
+```python
+filename = 'pi_million_digits.txt'
+
+with open(filename) as file_object:
+    lines = file_object.readlines()
+    
+pi_string = ''
+for line in lines:
+    pi_string += line.strip()
+    
+print(pi_string[:52] + "...")
+print(len(pi_string))
+```
+
+- 10.1.7 　圆周率值中包含你的生日吗
+```python
+filename = 'pi_million_digits.txt'
+
+with open(filename) as file_object:
+    lines = file_object.readlines()
+    
+pi_string = ''
+for line in lines:
+    pi_string += line.rstrip()
+    
+birthday = input("Enter your birthday, in the form mmddyy: ")
+if birthday in pi_string:
+    print("Your birthday appears in the first million digits of pi!")
+else:
+    print("Your birthday does not appear in the first million digits of pi.")
+```
+
+[10.1的所有示例](./10章、文件和异常/01、从文件中读取数据/)
 
 
