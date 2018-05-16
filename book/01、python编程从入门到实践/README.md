@@ -1377,3 +1377,41 @@ filename = 'programming.txt'
 with open(filename, 'w') as file_object:
     file_object.write('I love programming')
 ```
+第一个实参也是要打开的文件的名称；第二个实参（ 'w' ）告诉 Python ，我们要以 写入模式 打开这个文件。打开文件时，可指定 读取模式 （ 'r' ）、 写入模式 （ 'w' ）、 附加模式 （ 'a' ）或让你能够读取和写入文件的模式（ 'r+' ）。如果你省略了模式实参， Python 将以默认的只读模式打开文件。            
+如果你要写入的文件不存在，函数 open() 将自动创建它。然而，以写入（ 'w' ）模式打开文件时千万要小心，因为如果指定的文件已经存在， Python 将在返回文件对象前清空该文件。               
+
+- 10.2.2 　写入多行          
+函数 write() 不会在你写入的文本末尾添加换行符，因此如果你写入多行时没有指定换行符，文件看起来可能不是你希望的那样：              
+```python
+filename = 'programming.txt'
+
+with open(filename, 'w') as file_object:
+    file_object.write("I love programming.\n")
+    file_object.write("I love creating new games.\n")
+```
+
+- 10.2.3 　附加到文件         
+如果你要给文件添加内容，而不是覆盖原有的内容，可以 附加模式 打开文件         
+[write_message_a.py](./10章、文件和异常/02、写入文件/write_message_a.py)                
+```python
+filename = 'programming.txt'
+
+with open(filename, 'a') as file_object:
+    file_object.write("I also love finding meaning in large datasets.\n")
+    file_object.write("I love creating apps that can run in a browser.\n")
+```
+
+### 10.3 　异常            
+
+
+
+
+
+
+
+
+
+
+
+
+
