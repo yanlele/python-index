@@ -955,7 +955,7 @@ make_pizza(16, 'pepperoni')
 make_pizza(12, 'mushrooms', 'green peppers', 'extra cheese')
 ```
 
-## <div id='class09>第 9 章 类</div>              
+## <div id='class09'>第 9 章 类</div>              
 
 ### 9.1 　创建和使用类         
 - 9.1.1 　创建 Dog  类          
