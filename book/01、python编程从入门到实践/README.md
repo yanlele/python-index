@@ -1256,6 +1256,7 @@ for name,language in favorite_languages.items():
 - 10.1.1 　读取整个文件            
 要读取文件，需要一个包含几行文本的文件。下面首先来创建一个文件，它包含精确到小数点后 30 位的圆周率值，且在小数点后每 10 位处都换行：          
 下面的程序打开并读取这个文件，再将其内容显示到屏幕上：         
+[file_reader.py](./10章、文件和异常/01、从文件中读取数据/file_reader.py)                
 ```python
 with open('pi_digits.txt') as file_object:
     contents = file_object.read()
@@ -1286,6 +1287,7 @@ with open(file_path) as file_object:
 ```
 
 - 10.1.3 　逐行读取          
+[file_reader_line.py](./10章、文件和异常/01、从文件中读取数据/file_reader_line.py)              
 ```python
 filename = 'pi_digits.txt'
 
@@ -1297,6 +1299,7 @@ with open(filename) as file_object:
 
 
 - 10.1.4 　创建一个包含文件各行内容的列表           
+[file_reader_list.py](./10章、文件和异常/01、从文件中读取数据/file_reader_list.py)
 ```python
 filename = 'pi_digits.txt'
 
@@ -1310,6 +1313,7 @@ for line in lines:
 
 - 10.1.5 　使用文件的内容           
 将文件读取到内存中后，就可以以任何方式使用这些数据了。             
+[pi_string.py](./10章、文件和异常/01、从文件中读取数据/pi_string.py)
 ```python
 filename = 'pi_digits.txt'
 with open(filename) as file_object:
@@ -1326,6 +1330,7 @@ print(len(pi_string))
 
 - 10.1.6 　包含一百万位的大型文件           
 前面我们分析的都是一个只有三行的文本文件，但这些代码示例也可处理大得多的文件。如果我们有一个文本文件，其中包含精确到小数点后 1 000 000 位而不是 30 位的圆周率值，也可创建一个包含所有这些数字的字符串。为此，我们无需对前面的程序做任何修改，只需将这个文件传递给它即可。在这里，我们只打印到小数点后 50 位，以免终端为显示全部 1 000 000 位而不断地翻滚：                
+[pi_long_string.py](./10章、文件和异常/01、从文件中读取数据/pi_long_string.py)
 ```python
 filename = 'pi_million_digits.txt'
 
@@ -1340,7 +1345,8 @@ print(pi_string[:52] + "...")
 print(len(pi_string))
 ```
 
-- 10.1.7 　圆周率值中包含你的生日吗
+- 10.1.7 　圆周率值中包含你的生日吗          
+[birthday_in_pi_string.py](./10章、文件和异常/01、从文件中读取数据/birthday_in_pi_string.py)
 ```python
 filename = 'pi_million_digits.txt'
 
@@ -1361,3 +1367,13 @@ else:
 [10.1的所有示例](./10章、文件和异常/01、从文件中读取数据/)
 
 
+### 10.2 　写入文件          
+- 10.2.1 　写入空文件         
+将一条简单的消息存储到文件中，而不是将其打印到屏幕上：                 
+[write_message.py](./10章、文件和异常/02、写入文件/write_message.py)            
+```python
+filename = 'programming.txt'
+
+with open(filename, 'w') as file_object:
+    file_object.write('I love programming')
+```
