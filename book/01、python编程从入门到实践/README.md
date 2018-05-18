@@ -1405,14 +1405,65 @@ with open(filename, 'a') as file_object:
     file_object.write("I love creating apps that can run in a browser.\n")
 ```
 
-### 10.3 　异常            
+### 10.3 　异常                      
+- 10.3.1 处理ZeroDivisionError 异常            
 
+- 10.3.2 使用try-except 代码块           
+当你认为可能发生了错误时，可编写一个try-except 代码块来处理可能引发的异常。你让Python尝试运行一些代码，并告诉它如果这些代码引发了指定的异常，该怎么办。 处理ZeroDivisionError 异常的try-except 代码块类似于下面这样:              
+```python
+try:
+    print(5/0)
+except ZeroDivisionError:
+    print("You can't divide by zero!")
+```
 
+- 10.3.4 else 代码块           
+依赖于try 代码块成功执行的代码都应放到else 代码块中:         
+```python
+print("Give me two numbers, and I'll divide them.")
+print("Enter 'q' to quit.")
+while True:
+    first_number = input("\nFirst number: ")
+    if first_number == 'q':
+        break
+    second_number = input("Second number: ")
+    try:
+        answer = int(first_number) / int(second_number)
+    except ZeroDivisionError:
+        print("You can't divide by 0!")
+    else: print(answer)
+```
+[请见示例](./10章、文件和异常/03、异常/else.py)
 
+- 10.3.5 处理FileNotFoundError 异常         
+使用文件时，一种常见的问题是找不到文件         
+```python
+filename = 'alice.txt'
+try:
+    with open(filename) as f_obj:
+        contents = f_obj.read()
+except FileNotFoundError:
+    msg = "Sorry, the file " + filename + " does not exist."
+    print(msg)
+```
+[请见示例](./10章、文件和异常/03、异常/alice.py)
 
-
-
-
+- 10.3.6 分析文本           
+```python
+filename = 'alice.txt'
+try:
+    with open(filename) as f_obj:
+        contents = f_obj.read()
+except FileNotFoundError:
+    msg = "Sorry, the file " + filename + " does not exist."
+    print(msg)
+else:
+    # 计算文件大致包含多少个单词
+    words = contents.split()
+    num_words = len(words)
+    print("The file " + filename + " has about " + str(num_words) + " words.")
+```
+[请见示例](./10章、文件和异常/03、异常/分析文件.py)
 
 
 
