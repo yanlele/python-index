@@ -1555,6 +1555,11 @@ else:
 - 12.4.1 　创建 Ship  类            
 [ship.py](./项目1、外星人入侵/ship.py)
 
+### 12.5 　重构：模块 game_functions      
+我们将首先把管理事件的代码移到一个名为 check_events() 的函数中，以简化 run_game() 并隔离事件管理循环。           
+将 check_events() 放在一个名为 game_functions 的模块中         
+[game_functions.py](./项目1、外星人入侵/game_functions.py)
+
 
 
 
