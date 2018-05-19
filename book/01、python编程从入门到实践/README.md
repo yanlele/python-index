@@ -1555,11 +1555,15 @@ else:
 - 12.4.1 　创建 Ship  类            
 [ship.py](./项目1、外星人入侵/ship.py)
 
-### 12.5 　重构：模块 game_functions      
+### 12.5 　重构：模块 game_functions          
+
+- 12.5.1 　函数 check_events()
 我们将首先把管理事件的代码移到一个名为 check_events() 的函数中，以简化 run_game() 并隔离事件管理循环。           
 将 check_events() 放在一个名为 game_functions 的模块中         
 [game_functions.py](./项目1、外星人入侵/game_functions.py)
 
+- 12.5.2 　函数 update_screen()            
+为进一步简化 run_game() ，下面将更新屏幕的代码移到一个名为 update_screen() 的函数中，并将这个函数放在模块 game_functions.py 中         
 
 
 
