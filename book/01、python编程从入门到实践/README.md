@@ -1546,6 +1546,15 @@ else:
 
 ### 12.3 　开始游戏项目            
 - 12.3.1 　创建 Pygame 窗口以及响应用户输入                    
+[alien_invasion.py](./项目1、外星人入侵/alien_invasion.py)
+
+- 12.3.3 　创建设置类
+[settings.py](./项目1、外星人入侵/settings.py)
+
+### 12.4 　添加飞船图像 
+- 12.4.1 　创建 Ship  类            
+[ship.py](./项目1、外星人入侵/ship.py)
+
 
 
 
