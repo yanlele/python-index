@@ -1466,6 +1466,80 @@ else:
 [请见示例](./10章、文件和异常/03、异常/分析文件.py)
 
 
+### 10.4 　存储数据          
+- 10.4.1 　使用 json.dump()  和 json.load()         
+储存和读取json 数据            
+函数 json.dump() 接受两个实参：要存储的数据以及可用于存储数据的文件对象。         
+[储存一个json](./10章、文件和异常/04、存储数据/number_writer.py)            
+```python
+import json
+
+numbers = [1,2,3,4,7,11,13]
+
+filename = 'number.json'
+with open(filename, 'w') as f_obj:
+    json.dump(numbers, f_obj)
+```
+
+[读取一个json](./10章、文件和异常/04、存储数据/number_reader.py)
+```python
+import json
+filename = 'number.json'
+with open(filename) as f_obj:
+    numbers = json.load(f_obj)
+
+print(numbers)
+```
+
+- 10.4.2 　保存和读取用户生成的数据          
+用户首次运行程序时被提示输入自己的名字，这样再次运行程序时就记住他了。             
+```python
+import json
+
+username = input('你的名字是什么呢？')
+filename = 'username.json'
+with open(filename, 'w') as f_obj:
+    json.dump(username, f_obj)
+    print('已经记住你的名字了！')
+```
+
+[现在再编写一个程序，向其名字被存储的用户发出问候：](./10章、文件和异常/04、存储数据/greet_user.py)           
+```python
+import json
+filename = 'username.json'
+
+with open(filename) as f_obj:
+    username = json.load(f_obj)
+    print('读取到你的名字 ' + username + '!')
+```
+
+[对上面的程序进行合并优化](./10章、文件和异常/04、存储数据/remember_me.py)
+```python
+import json
+filename = 'username.json'
+
+try:
+    with open(filename) as f_obj:
+        username = json.load(f_obj)
+except FileNotFoundError:
+    username = input('你的名字是什么呢？ ：')
+    with open(filename, 'w') as f_obj:
+        json.dump(username, f_obj)
+        print('名字已经存储好了')
+else:
+    print('读取到你的名字是' + username + ' !')
+```
+
+- 10.4.3 　重构            
+你经常会遇到这样的情况：代码能够正确地运行，但可做进一步的改进 —— 将代码划分为一系列完成具体工作的函数。这样的过程被称为 重构 。重构让代码更清晰、更易于理解、更容易扩展。            
+重构部分的代码可以自己看这里面的逻辑：
+[remember_me.py](./10章、文件和异常/04、存储数据/remember_me.py)            
+[greet_user.py](./10章、文件和异常/04、存储数据/greet_user.py)
+
+
+
+
+
 
 
 
