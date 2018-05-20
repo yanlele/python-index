@@ -37,6 +37,9 @@ def run_game():
         # 更新子弹相关的逻辑
         gf.update_bullets(bullets)
 
+        # 更新每个外星人的位置
+        gf.update_aliens(aliens)
+
         # 每次循环都需要重绘屏幕 而且 让最近回执的屏幕可见
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 

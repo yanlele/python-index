@@ -18,3 +18,6 @@ class Settings():
         self.bullet_color = 60, 60, 60
         self.bullets_allowed = 3   # 允许子弹的最大数量
 
+        #  外星人设置
+        self.alien_speed_factor = 1
+
