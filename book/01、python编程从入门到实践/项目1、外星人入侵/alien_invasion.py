@@ -28,13 +28,8 @@ def run_game():
         # 更新键盘操作来控制飞船
         ship.update()
 
-        # 将子弹存储到编组中
-        bullets.update()
-
-        # 删除已经消失的子弹
-        for bullet in bullets.copy():
-            if bullet.rect.bottom <= 0:
-                bullets.remove(bullet)
+        # 更新子弹相关的逻辑
+        gf.update_bullets(bullets)
 
         # 每次循环都需要重绘屏幕 而且 让最近回执的屏幕可见
         gf.update_screen(ai_settings, screen, ship, bullets)
