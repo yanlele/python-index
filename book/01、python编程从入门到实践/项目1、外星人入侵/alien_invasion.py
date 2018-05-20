@@ -23,8 +23,8 @@ def run_game():
     # 创建一个用于存储外星人的编辑组
     aliens = Group()
 
-    # 创建一个群外星人
-    gf.create_fleet(ai_settings, screen, aliens)
+    #  创建外星人群
+    gf.create_fleet(ai_settings, screen, ship, aliens)
 
     # 开始游戏主循环
     while True:
