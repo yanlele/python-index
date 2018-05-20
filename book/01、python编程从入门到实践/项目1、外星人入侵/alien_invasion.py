@@ -1,4 +1,3 @@
-import sys
 import pygame
 from pygame.sprite import Group
 
@@ -21,8 +20,11 @@ def run_game():
     # 创建一个用于存储子弹的编辑组
     bullets = Group()
 
-    # 创建一个外星人
-    alien = Alien(ai_settings, screen)
+    # 创建一个用于存储外星人的编辑组
+    aliens = Group()
+
+    # 创建一个群外星人
+    gf.create_fleet(ai_settings, screen, aliens)
 
     # 开始游戏主循环
     while True:
@@ -36,7 +38,7 @@ def run_game():
         gf.update_bullets(bullets)
 
         # 每次循环都需要重绘屏幕 而且 让最近回执的屏幕可见
-        gf.update_screen(ai_settings, screen, ship, alien, bullets)
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 
 run_game()
