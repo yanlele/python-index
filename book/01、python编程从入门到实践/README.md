@@ -1542,35 +1542,9 @@ else:
 
 
 # 项目 1 　外星人入侵           
-## 第 12  章　武装飞船     
 
-### 12.3 　开始游戏项目            
-- 12.3.1 　创建 Pygame 窗口以及响应用户输入                    
-[alien_invasion.py](./项目1、外星人入侵/alien_invasion.py)
-
-- 12.3.3 　创建设置类
-[settings.py](./项目1、外星人入侵/settings.py)
-
-### 12.4 　添加飞船图像 
-- 12.4.1 　创建 Ship  类            
-[ship.py](./项目1、外星人入侵/ship.py)
-
-### 12.5 　重构：模块 game_functions          
-
-- 12.5.1 　函数 check_events()
-我们将首先把管理事件的代码移到一个名为 check_events() 的函数中，以简化 run_game() 并隔离事件管理循环。           
-将 check_events() 放在一个名为 game_functions 的模块中         
-[game_functions.py](./项目1、外星人入侵/game_functions.py)
-
-- 12.5.2 　函数 update_screen()            
-为进一步简化 run_game() ，下面将更新屏幕的代码移到一个名为 update_screen() 的函数中，并将这个函数放在模块 game_functions.py 中         
-
-
-### 12.6 　驾驶飞船          
-- 12.6.1 　响应按键          
-
-
-### 12.8 　射击                
+[直接看项目就可以了](./项目1、外星人入侵/) 
+[这个是标准的书籍官方实例](./项目1、外星人入侵%20-%20示例项目/)
 
 
 
