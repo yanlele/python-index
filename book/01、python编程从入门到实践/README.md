@@ -1551,12 +1551,20 @@ else:
 
 # <div id='project02'>项目2 数据可视化</div>             
 ## <div id='project02'>第 15  章　生成数据</div>                  
-- [绘制简单的折线图](./项目2、数据可视化/mp_squares.py)        
+- 简单的折线图
+    - [绘制简单的折线图](./项目2、数据可视化/mp_squares.py)        
 
-- [使用 scatter()  绘制散点图并设置其样式 - 一个散点的情况](./项目2、数据可视化/scatter_squares01.py)
-- [使用 scatter()  绘制一系列点](./项目2、数据可视化/scatter_squares02.py)
-- [使用 scatter()  自动计算数据](./项目2、数据可视化/scatter_squares03.py)
-- [使用 scatter()  删除数据点的轮廓 || 自定义颜色](./项目2、数据可视化/scatter_squares04.py)
+- 散点        
+    - [使用 scatter()  绘制散点图并设置其样式 - 一个散点的情况](./项目2、数据可视化/scatter_squares01.py)
+    - [使用 scatter()  绘制一系列点](./项目2、数据可视化/scatter_squares02.py)
+    - [使用 scatter()  自动计算数据](./项目2、数据可视化/scatter_squares03.py)
+    - [使用 scatter()  删除数据点的轮廓 || 自定义颜色](./项目2、数据可视化/scatter_squares04.py)
+    - [使用 scatter()  使用颜色映射 和 自动保存图表](./项目2、数据可视化/scatter_squares05.py)         
+        要让程序自动将图表保存到文件中，可将对 plt.show() 的调用替换为对 plt.savefig() 的调用            
+        `plt.savefig('squares_plot.png', bbox_inches='tight')`
+    
+- 随机漫步      
+    
 
 
 
