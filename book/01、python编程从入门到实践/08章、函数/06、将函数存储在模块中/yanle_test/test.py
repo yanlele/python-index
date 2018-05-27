@@ -9,3 +9,7 @@ def make_pizza(size, *toppings):
 
 def my_console(input):
     print(input)
+
+
+def get_name(name):
+    print(name)
