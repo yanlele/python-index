@@ -1617,13 +1617,13 @@ else:
 | %S | 秒数（ 00~61 ） |           
 
 
-| 方法 | 描述 |             
+| 实参 | 含义|            
 | :- | :- |     
-|concat()|连接两个或更多的数组，并返回结果。|        
-|entries()|	返回数组的可迭代对象。|        
-|array.every(function(currentValue,index,arr), thisValue)|用于检测数组所有元素是否都符合指定条件|      
-|array.fill(value, start, end)|方法用于将一个固定值替换数组的元素。|      
-|array.filter(function(currentValue,index,arr), thisValue)|创建一个新的数组，新数组中的元素是通过检查指定数组中符合条件的所有元素|     
+|%A|星期的名称，如 Monday|        
+|%B|月份名，如 January。|        
+|%m|用数字表示的月份（ 01~12 ）|      
+|%d|用数字表示月份中的一天（ 01~31 ）|      
+|%Y |四位的年份，如 2015|     
 |find()	|返回符合传入测试（函数）条件的数组元素。|      
 |findIndex()	|返回符合传入测试（函数）条件的数组元素索引。|        
 |forEach()	|数组每个元素都执行一次回调函数。|      
