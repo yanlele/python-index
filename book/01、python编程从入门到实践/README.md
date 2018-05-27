@@ -1618,35 +1618,6 @@ else:
 | %S | 秒数（ 00~61 ） |           
 
 
-| 实参 | 含义|            
-| :- | :- |     
-|%A|星期的名称，如 Monday|        
-|%B|月份名，如 January。|        
-|%m|用数字表示的月份（ 01~12 ）|      
-|%d|用数字表示月份中的一天（ 01~31 ）|      
-|%Y |四位的年份，如 2015|     
-
-|find()	|返回符合传入测试（函数）条件的数组元素。|      
-|findIndex()	|返回符合传入测试（函数）条件的数组元素索引。|        
-|forEach()	|数组每个元素都执行一次回调函数。|      
-|[Array.from(object, mapFunction, thisValue)](http://www.runoob.com/jsref/jsref-from.html)| 通过给定的对象中创建一个数组。 |      
-|indexOf()	|搜索数组中的元素，并返回它所在的位置。|       
-|join()	|把数组的所有元素放入一个字符串。|      
-|array.map(function(currentValue,index,arr), thisValue)|方法返回一个新数组，数组中的元素为原始数组元素调用函数处理后的值。|      
-|pop()	|删除数组的最后一个元素并返回删除的元素。|      
-|push()	|向数组的末尾添加一个或更多元素，并返回新的长度。|          
-|shift()	|删除并返回数组的第一个元素。|        
-|unshift()|向数组的开头添加一个或更多元素，并返回新的长度。|        
-|array.slice(startIndex, endIndex)|方法可从已有的数组中返回选定的元素。 slice() 方法不会改变原始数组。|          
-|array.some(function(currentValue,index,arr),thisValue)|方法用于检测数组中的元素是否满足指定条件（函数提供）。|
-|[array.splice(index,howmany,item1,.....,itemX)](http://www.runoob.com/jsref/jsref-splice.html)|方法用于插入、删除或替换数组的元素。|
-    
-    
-    
-    
-    
-
-
 
 
 
