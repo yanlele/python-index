@@ -23,7 +23,7 @@
 |{n}|前面字符至少出现n次|
 |{n,}|前面字符至少出现n次以上|
 |{n,m}|前面字符至少出现n次，最多出现m次|
-| '|' |这个是一个或的关系，两边之间任意成立就成立|
+| | |这个是一个或的关系，两边之间任意成立就成立|
 |[]|满足中括号中的任意一个字符就成立,这样也是可以的[0-9][a-zA-Z][^1], 而且中括号包括的字符就不在具有特殊意义了，就是普通字符|
 |[^...]|不在[]中的字符：[^abc] 匹配除了a,b,c之外的字符|
 |\s|匹配任意空白字符，等价于 [\t\n\r\f].|
@@ -79,6 +79,22 @@ if match_obj:
 import re
 line = '15213491241'
 regex_str = '(1[245789][0-9]{9})'
+match_obj = re.match(regex_str, line)
+if match_obj:
+    print(match_obj.group(1))
+```
+
+实例6：一个复杂情况下提取出生日期的情况            
+```python
+import re
+
+line = 'XXX出生于2001年6月1日'
+line = 'XXX出生于2001/6/1'
+line = 'XXX出生于2001-6-1'
+line = 'XXX出生于2001-06-01'
+line = 'XXX出生于2001-06'
+line = 'XXX出生于2001-06月'
+regex_str = '.*出生于(\d{4}[年/-]\d{1,2}([月/-]\d{1,2}|[月/-]$|$))'
 match_obj = re.match(regex_str, line)
 if match_obj:
     print(match_obj.group(1))
