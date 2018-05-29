@@ -84,7 +84,7 @@ if match_obj:
     print(match_obj.group(1))
 ```
 
-实例6：一个复杂情况下提取出生日期的情况            
+[实例6：一个复杂情况下提取出生日期的情况](./03章、爬虫基础知识/01、regtest/test/test.py)            
 ```python
 import re
 
