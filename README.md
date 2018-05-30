@@ -13,4 +13,5 @@
     
 ## 其他
 - [python离线安装包](https://www.lfd.uci.edu/~gohlke/pythonlibs/)
-- [解决pip安装速度过慢的问题](./18年/05月/01、python项目依赖文件/)
+- [解决pip安装速度过慢的问题](./18年/05月/02、解决pip安装速度过慢的问题/)
+- [查看自己python所支持的whl文件类型](./18年/05月/03、查看自己python所支持的whl文件类型/)
