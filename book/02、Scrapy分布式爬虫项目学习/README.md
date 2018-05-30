@@ -3,6 +3,7 @@
 **目录**
 - [第三章、爬虫基础知识](#class03)
     - [1、正则表达式专题](#class03-01)
+- [第四章、scrapy爬取致命技术文章网站](#class04)
 
 
 ## <div id='class03'>第三章、爬虫基础知识</div>
@@ -103,3 +104,20 @@ if match_obj:
 
 ### <div id='class03-01'>1、深度优先</div>                 
 
+
+## <div id='class04'>04章、scrapy爬取致命技术文章网站</div>  
+### 安装scrapy 
+1、如果scrapy安装失败，我们可以选择离线安装           
+- [python离线安装包](https://www.lfd.uci.edu/~gohlke/pythonlibs/)
+- [解决pip安装速度过慢的问题](../../18年/05月/02、解决pip安装速度过慢的问题/)
+
+安装好了之后我们可以通过scrapy 这个命令来初始化我们的scrapy项目目录：           
+例如： `scrapy startproject ArticleSpider`             
+
+在这之后，我们还可以通过：
+```
+You can start your first spider with:
+    cd ArticleSpider
+    scrapy genspider example example.com
+```
+这样来创建我们所需要爬取网站的一个python 模板
