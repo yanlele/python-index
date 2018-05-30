@@ -9,3 +9,8 @@
 ## 18年笔记
 - 五月
     - [01、python项目依赖文件](./18年/05月/01、python项目依赖文件)
+    
+    
+## 其他
+- [python离线安装包](https://www.lfd.uci.edu/~gohlke/pythonlibs/)
+- [解决pip安装速度过慢的问题](./18年/05月/01、python项目依赖文件/)
