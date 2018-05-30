@@ -120,4 +120,4 @@ You can start your first spider with:
     cd ArticleSpider
     scrapy genspider example example.com
 ```
-这样来创建我们所需要爬取网站的一个python 模板
+这样来创建我们所需要爬取网站的一个python 模板: `scrapy genspider jobbole http://blog.jobbole.com/`         
