@@ -120,4 +120,30 @@ You can start your first spider with:
     cd ArticleSpider
     scrapy genspider example example.com
 ```
-这样来创建我们所需要爬取网站的一个python 模板: `scrapy genspider jobbole http://blog.jobbole.com/`         
+这样来创建我们所需要爬取网站的一个python 模板: `scrapy genspider jobbole blog.jobbole.com`         
+
+2、爬虫项目的开始               
+2.1、我们首先可以写一个测试的文件，文件中直接调用jobbole.py就可以达到调试的目的了             
+在测试文件main.py中，有这样一段代码：          
+```python
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+```
+用这个写法，可以暂时把我们文件目录添加到系统文件目录下面去； `os.path.abspath(__file__)`这个是获取当前文件路径， `os.path.dirname(os.path.abspath(__file__))` 这个是获取的父级文件路径， `sys.path.append(path)`这样就可以路径添加到系统配置中去了              
+
+我们启动scrapy 爬虫项目的时候用到的命令行是： `scrapy crawl jobbole` 最后一个参数表示项目文件，但是一般在windows系统中是会启动失败的，这个时候我们需要安装一个模块文件：          
+`pip install pypiwin32`
+
+在测试文件main.py中测试代码如下：            
+```python
+from scrapy.cmdline import execute
+
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+execute(["scrapy", "crawl", "jobbole"])
+```
+我们可以打断点调试，就可以看到jobbole.py中response的一些列信息了
