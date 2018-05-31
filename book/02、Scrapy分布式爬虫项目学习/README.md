@@ -147,3 +147,18 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 execute(["scrapy", "crawl", "jobbole"])
 ```
 我们可以打断点调试，就可以看到jobbole.py中response的一些列信息了
+
+2.2、xpath
+基础语法            
+
+|表达式|说明|
+|:-|:-|
+|article|选取所有article元素的所有子节点|
+|/article|选取根元素article|
+|article/a|选取所有属于article的子元素的a元素|
+|//div|选取所有div子元素（无论出现在文档的任何地方）|
+|article//div|选取所有属于article元素的后代的div元素，不管他出现在article之下的任何位置|
+|//@class|选取所有名为class的属性|
+
+xpath语法 - 谓语            
+
