@@ -183,3 +183,25 @@ xpath语法 - 其他
 
 补充：由于markdown语法限制，上述“或者”实际上是 “|”
 
+2.3、通过xpath来抓取节点的一个简单实例             
+```python
+import scrapy
+
+
+class JobboleSpider(scrapy.Spider):
+    name = 'jobbole'
+    allowed_domains = ['blog.jobbole.com/']
+    start_urls = ['http://blog.jobbole.com/113665/']
+
+    def parse(self, response):
+
+        re_select =  response.xpath('//*[@id="post-113665"]/div[1]/h1')
+        pass
+```
+比如我们要抓取 `http://blog.jobbole.com/113665/` 这个网址下面的某一些信息， 直接设置urls, 然后通过response内置的xpath来赛选就可以了。（获取xpath其实可以直接在浏览器上获取就可以了）            
+当然我们还可以在提取过程中，用很多种写法，这样可以大大的简化我们的选择xpath            
+```python
+re1_select = response.xpath('/html/body/div[1]/div[3]/div[1]/div[1]/h1')
+re2_select = response.xpath('//*[@id="post-113665"]/div[1]/h1')
+re3_select = response.xpath('//div[@class="entry-header"]/h1')
+```
