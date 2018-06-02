@@ -209,5 +209,58 @@ re3_select = response.xpath('//div[@class="entry-header"]/h1')
 我们可以这样，拿到我们所需要的文本值： `response.xpath('//div[@class="entry-header"]/h1/text()').extract()[0]`             
 
 其实我们这样调试时很慢的，我们可以利用控制台命令行进行调试：  `scrapy shell http://blog.jobbole.com/113665/` 这样我们就可以在脚本中调试了               
-          
+
+通过xpath提取文章完成， 具体代码如下：          
+```python
+# -*- coding: utf-8 -*-
+import re
+import scrapy
+
+
+class JobboleSpider(scrapy.Spider):
+    name = 'jobbole'
+    allowed_domains = ['blog.jobbole.com/']
+    start_urls = ['http://blog.jobbole.com/110287/']
+
+    def parse(self, response):
+        re1_select = response.xpath('/html/body/div[1]/div[3]/div[1]/div[1]/h1')
+        re2_select = response.xpath('//*[@id="post-113665"]/div[1]/h1')
+
+        # 获取文章的title
+        title = response.xpath('//div[@class="entry-header"]/h1/text()').extract()[0]
+
+        # 获取文章的创建时间
+        create_time = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/text()').extract()[0].strip().replace('·', '').strip()
+
+        # 获取文章的点赞数
+        praise_nums = int(response.xpath("//span[contains(@class, 'vote-post-up')]/h10/text()").extract()[0])
+
+        # 收藏数量
+        fav_nums = response.xpath("//span[contains(@class, 'bookmark-btn')]/text()").extract()[0]
+        match_re = re.match('.*(\d+).*', fav_nums)
+        if match_re:
+            fav_nums = match_re.group(1)
+        else:
+            fav_nums = 0
+
+        # 评论数
+        comment_num = response.xpath("//a[@href='#article-comment']/span/text()").extract()[0]
+        match_re = re.match('.*(\d+).*', comment_num)
+        if match_re:
+            comment_num = match_re.group(1)
+        else:
+            comment_num = 0
+
+        # 获取文章正文 - 这个地方我们可以直接把html字符串提取出来就完了
+        content = response.xpath("//div[@class='entry']").extract()[0]
+
+        # 获取文章关键字
+        tag_list = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/a/text()').extract()
+        tag_list = [element for element in tag_list if not element.strip().endswith("评论")]
+        tags = ','.join(tag_list)
+        
+        pass
+```          
+
+
 

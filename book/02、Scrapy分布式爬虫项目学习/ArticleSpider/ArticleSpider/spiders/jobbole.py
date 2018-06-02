@@ -18,6 +18,7 @@ class JobboleSpider(scrapy.Spider):
         # 获取文章的创建时间
         create_time = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/text()').extract()[0].strip().replace('·', '').strip()
 
+
         # 获取文章的点赞数
         praise_nums = int(response.xpath("//span[contains(@class, 'vote-post-up')]/h10/text()").extract()[0])
 
@@ -44,6 +45,5 @@ class JobboleSpider(scrapy.Spider):
         tag_list = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/a/text()').extract()
         tag_list = [element for element in tag_list if not element.strip().endswith("评论")]
         tags = ','.join(tag_list)
-
 
         pass
