@@ -27,6 +27,19 @@ class JobboleCssSelecterSpider(scrapy.Spider):
             fav_nums = 0
 
         # 评论数
+        comment_num = response.css("a[href='#article-comment'] span::text").extract()[0]
+        match_re = re.match('.*(\d+).*', comment_num)
+        if match_re:
+            comment_num = match_re.group(1)
+        else:
+            comment_num = 0
 
+        # 获取文章正文
+        content = response.css("div.entry").extract()[0]
+
+        # 获取文章关键字
+        tag_list = response.css('p.entry-meta-hide-on-mobile a::text').extract()
+        tag_list = [element for element in tag_list if not element.strip().endswith("评论")]
+        tags = ','.join(tag_list)
 
         pass
