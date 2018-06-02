@@ -6,7 +6,7 @@ import scrapy
 class JobboleSpider(scrapy.Spider):
     name = 'jobbole'
     allowed_domains = ['blog.jobbole.com/']
-    start_urls = ['http://blog.jobbole.com/113665/']
+    start_urls = ['http://blog.jobbole.com/110287/']
 
     def parse(self, response):
         re1_select = response.xpath('/html/body/div[1]/div[3]/div[1]/div[1]/h1')
@@ -36,5 +36,14 @@ class JobboleSpider(scrapy.Spider):
             comment_num = match_re.group(1)
         else:
             comment_num = 0
+
+        # 获取文章正文 - 这个地方我们可以直接把html字符串提取出来就完了
+        content = response.xpath("//div[@class='entry']").extract()[0]
+
+        # 获取文章关键字
+        tag_list = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/a/text()').extract()
+        tag_list = [element for element in tag_list if not element.strip().endswith("评论")]
+        tags = ','.join(tag_list)
+
 
         pass
