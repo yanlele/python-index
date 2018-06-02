@@ -2,12 +2,13 @@
 import re
 import scrapy
 from scrapy.http import Request
+from urllib import parse
 
 
 class JobboleSpider(scrapy.Spider):
     name = 'jobbole'
     allowed_domains = ['blog.jobbole.com/']
-    start_urls = ['http://blog.jobbole.com/']
+    start_urls = ['http://blog.jobbole.com/all-posts/']
 
     def parse(self, response):
         """
@@ -19,14 +20,18 @@ class JobboleSpider(scrapy.Spider):
         # 解析列表页中的所有文章url并交给scrapy下载后并进行解析
         post_urls = response.css("#archive div.floated-thumb div.post-thumb a::attr(href)").extract()
         for post_url in post_urls:
-            Request(url=post_url, callback=self.parse_detail)
-            print(post_url)
+            yield Request(url=parse.urljoin(response.url, post_url), callback=self.parse_detail) # 如果没有完整的url的时候，这个时候我们可以利用parse.urljoin(base_url, url)来拼接
+            # yield Request(url=post_url, callback=self.parse_detail)
+
+        # 提取下一页交给 scrapy 来进行下载
+        next_urls = response.css('a.next.page-numbers::attr(href)').extract_first("")
+        if next_urls:
+            yield Request(url=next_urls, callback=self)
+
 
 
     def parse_detail(self, response):
         # 提取文章的具体字段
-        re1_select = response.xpath('/html/body/div[1]/div[3]/div[1]/div[1]/h1')
-        re2_select = response.xpath('//*[@id="post-113665"]/div[1]/h1')
 
         # 获取文章的title
         title = response.xpath('//div[@class="entry-header"]/h1/text()').extract()[0]
