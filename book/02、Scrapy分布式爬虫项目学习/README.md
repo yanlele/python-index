@@ -205,3 +205,9 @@ re1_select = response.xpath('/html/body/div[1]/div[3]/div[1]/div[1]/h1')
 re2_select = response.xpath('//*[@id="post-113665"]/div[1]/h1')
 re3_select = response.xpath('//div[@class="entry-header"]/h1')
 ```
+
+我们可以这样，拿到我们所需要的文本值： `response.xpath('//div[@class="entry-header"]/h1/text()').extract()[0]`             
+
+其实我们这样调试时很慢的，我们可以利用控制台命令行进行调试：  `scrapy shell http://blog.jobbole.com/113665/` 这样我们就可以在脚本中调试了               
+          
+
