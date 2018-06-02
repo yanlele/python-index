@@ -106,8 +106,8 @@ if match_obj:
 
 
 ## <div id='class04'>04章、scrapy爬取致命技术文章网站</div>  
-### 安装scrapy 
-1、如果scrapy安装失败，我们可以选择离线安装           
+### 1、安装scrapy 
+如果scrapy安装失败，我们可以选择离线安装           
 - [python离线安装包](https://www.lfd.uci.edu/~gohlke/pythonlibs/)
 - [解决pip安装速度过慢的问题](../../18年/05月/02、解决pip安装速度过慢的问题/)
 
@@ -122,7 +122,7 @@ You can start your first spider with:
 ```
 这样来创建我们所需要爬取网站的一个python 模板: `scrapy genspider jobbole blog.jobbole.com`         
 
-**2、爬虫项目的开始**               
+### 2、爬虫项目的开始：抓取一篇文章             
 **2.1、我们首先可以写一个测试的文件，文件中直接调用jobbole.py就可以达到调试的目的了**             
 在测试文件main.py中，有这样一段代码：          
 ```python
@@ -183,7 +183,7 @@ xpath语法 - 其他
 
 补充：由于markdown语法限制，上述“或者”实际上是 “|”
 
-2.3、通过xpath来抓取节点的一个简单实例             
+**2.3、通过xpath来抓取节点的一个简单实例**             
 ```python
 import scrapy
 
@@ -261,6 +261,21 @@ class JobboleSpider(scrapy.Spider):
         
         pass
 ```          
+[xpath爬取数据实例](./ArticleSpider/ArticleSpider/spiders/jobbole.py)
+
+
+**2.4、通过css选择器爬取数据的实现**
+ 
+**利用css选择器**
+[css选择器爬取数据实例](./ArticleSpider/ArticleSpider/spiders/jobbole_css_selecter.py)
+
+备注：     
+**使用extract()[0]的时候是有风险的，因为有的时候，有可能没有获取到数组，然后去第一个数组元素，是会抛出异常的， 我们可以使用 extract_first() 方法来代替extract()[0]**               
+
+
+### 抓取多篇文章
+
+
 
 
 

@@ -1,14 +1,30 @@
 # -*- coding: utf-8 -*-
 import re
 import scrapy
+from scrapy.http import Request
 
 
 class JobboleSpider(scrapy.Spider):
     name = 'jobbole'
     allowed_domains = ['blog.jobbole.com/']
-    start_urls = ['http://blog.jobbole.com/110287/']
+    start_urls = ['http://blog.jobbole.com/']
 
     def parse(self, response):
+        """
+        1、获取文章列表页面的具体文章url并交给scrapy下载，然后交给解析函数进行具体字段的解析
+        2、获取下一页的url 并交给scrapy进行下载，下载完成之后交给parse函数
+        :param response:
+        :return:
+        """
+        # 解析列表页中的所有文章url并交给scrapy下载后并进行解析
+        post_urls = response.css("#archive div.floated-thumb div.post-thumb a::attr(href)").extract()
+        for post_url in post_urls:
+            Request(url=post_url, callback=self.parse_detail)
+            print(post_url)
+
+
+    def parse_detail(self, response):
+        # 提取文章的具体字段
         re1_select = response.xpath('/html/body/div[1]/div[3]/div[1]/div[1]/h1')
         re2_select = response.xpath('//*[@id="post-113665"]/div[1]/h1')
 
@@ -17,7 +33,6 @@ class JobboleSpider(scrapy.Spider):
 
         # 获取文章的创建时间
         create_time = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/text()').extract()[0].strip().replace('·', '').strip()
-
 
         # 获取文章的点赞数
         praise_nums = int(response.xpath("//span[contains(@class, 'vote-post-up')]/h10/text()").extract()[0])
