@@ -24,7 +24,7 @@ class JobboleSpider(scrapy.Spider):
 
         # 收藏数量
         fav_nums = response.xpath("//span[contains(@class, 'bookmark-btn')]/text()").extract()[0]
-        match_re = re.match('.*(\d+).*', fav_nums)
+        match_re = re.match('.*?(\d+).*', fav_nums)
         if match_re:
             fav_nums = match_re.group(1)
         else:
@@ -32,7 +32,7 @@ class JobboleSpider(scrapy.Spider):
 
         # 评论数
         comment_num = response.xpath("//a[@href='#article-comment']/span/text()").extract()[0]
-        match_re = re.match('.*(\d+).*', comment_num)
+        match_re = re.match('.*?(\d+).*', comment_num)
         if match_re:
             comment_num = match_re.group(1)
         else:
