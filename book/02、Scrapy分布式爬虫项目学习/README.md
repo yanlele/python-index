@@ -303,7 +303,40 @@ def parse(self, response):
 ### <div id='class04-04'>4、文章存储问题</div>                 
 - 关于items的使用，我们可以在这里实现具体提取的文章字段逻辑
 
-这个地方要介绍一下Request 模块中 meta的使用，meta接受的是一个对象字典，可以直接带到response中去
+这个地方要介绍一下Request 模块中 meta的使用，meta接受的是一个对象字典，可以直接带到response中去。通过这个原则，我们可以获取到一片文章的title 图片。                   
+```python
+"""skip"""
+post_nodes = response.css("#archive div.floated-thumb .post-thumb a")
+for post_node in post_nodes:
+    image_url = post_node.css("img::attr(src)").extract_first("")
+    post_url = post_node.css("::attr(href)").extract_first("")
+    url = parse.urljoin(response.url, post_url)         # 这个会自动帮我们拼接我们想要的url地址： parse.urljoin(base_url, url)
+    yield Request(url=url, callback=self.parse_detail, meta={"front_image_url": image_url}, dont_filter=True)
+         
+"""skip"""
+# 获取文章的点赞数
+praise_nums = int(response.xpath("//span[contains(@class, 'vote-post-up')]/h10/text()").extract()[0])
+```
+
+在items.py文件中，定义一个接受我们要指定保存的内容字段                    
+```python
+class JobBoleArticleItem(scrapy.Item):
+    title = scrapy.Field()  # 只能指定这个类型
+    create_date = scrapy.Field()
+    url = scrapy.Field()
+    url_object_url = scrapy.Field()
+    font_image_url = scrapy.Field()
+    font_image_path = scrapy.Field()  # 本地存储路径
+    praise_nums = scrapy.Field()
+    comment_num = scrapy.Field()
+    fav_nums = scrapy.Field()
+    tags = scrapy.Field()
+    content = scrapy.Field()
+```
+
+然后把我们这个定义好的类，注入到spiders.py中去，用于保存相关数据               
+
+
 
 
 

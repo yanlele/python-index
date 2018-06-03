@@ -4,6 +4,8 @@ import scrapy
 from scrapy.http import Request
 from urllib import parse
 
+from ArticleSpider.items import JobBoleArticleItem
+
 
 class JobboleSpider(scrapy.Spider):
     name = 'jobbole'
@@ -36,6 +38,10 @@ class JobboleSpider(scrapy.Spider):
         :param response:
         :return:
         """
+
+        # 实例化接受对象
+        article_item = JobBoleArticleItem()
+
         # 获取title的图片(封面图) 这个地方我们可以通过字典的方式来查找，也可以通过get的方式来查找，建议get方式，这样不会出现异常
         font_image_url = response.meta.get("front_image_url", "")
 
@@ -43,7 +49,7 @@ class JobboleSpider(scrapy.Spider):
         title = response.xpath('//div[@class="entry-header"]/h1/text()').extract_first()
 
         # 获取文章的创建时间
-        create_time = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/text()').extract()[0].strip().replace('·', '').strip()
+        create_date = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/text()').extract()[0].strip().replace('·', '').strip()
 
         # 获取文章的点赞数
         praise_nums = int(response.xpath("//span[contains(@class, 'vote-post-up')]/h10/text()").extract()[0])
@@ -72,4 +78,16 @@ class JobboleSpider(scrapy.Spider):
         tag_list = [element for element in tag_list if not element.strip().endswith("评论")]
         tags = ','.join(tag_list)
 
-        pass
+        # 填充article_item
+        article_item["title"] = title
+        article_item["url"] = response.url
+        article_item["create_date"] = create_date
+        article_item["font_image_url"] = font_image_url
+        article_item["praise_nums"] = praise_nums
+        article_item["comment_num"] = comment_num
+        article_item["fav_nums"] = fav_nums
+        article_item["tags"] = tags
+        article_item["content"] = content
+
+        # 传递到pipelines.py
+        yield article_item
