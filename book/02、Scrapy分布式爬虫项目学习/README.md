@@ -270,7 +270,7 @@ class JobboleSpider(scrapy.Spider):
 [css选择器爬取数据实例](./ArticleSpider/ArticleSpider/spiders/jobbole_css_selecter.py)
 
 备注：     
-**使用extract()[0]的时候是有风险的，因为有的时候，有可能没有获取到数组，然后去第一个数组元素，是会抛出异常的， 我们可以使用 extract_first() 方法来代替extract()[0]**               
+**使用extract()[0]的时候是有风险的，因为有的时候，有可能没有获取到数组，然后去第一个数组元素，是会抛出异常的， 我们可以使用 extract_first() 方法来代替extract()[0]， extract_first()还可以接受一个参数，就是没有找到对象的时候，用接受参数来代替就可以了。**               
 
 
 ### 抓取多篇文章

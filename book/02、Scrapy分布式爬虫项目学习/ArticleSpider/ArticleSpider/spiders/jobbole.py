@@ -14,30 +14,29 @@ class JobboleSpider(scrapy.Spider):
         """
         1、获取文章列表页面的具体文章url并交给scrapy下载，然后交给解析函数进行具体字段的解析
         2、获取下一页的url 并交给scrapy进行下载，下载完成之后交给parse函数
-        :param response:
-        :return:
         """
         # 解析列表页中的所有文章url并交给scrapy下载后并进行解析
-        post_urls = response.css("#archive div.floated-thumb div.post-thumb a::attr(href)").extract()
+        post_urls = response.css("#archive div.floated-thumb .post-thumb a::attr(href)").extract()
         for post_url in post_urls:
-            yield Request(url=parse.urljoin(response.url, post_url), callback=self.parse_detail) # 如果没有完整的url的时候，这个时候我们可以利用parse.urljoin(base_url, url)来拼接
-            # yield Request(url=post_url, callback=self.parse_detail)
+            yield Request(url=parse.urljoin(response.url, post_url), callback=self.parse_detail, dont_filter=True)
 
         # 提取下一页交给 scrapy 来进行下载
         next_urls = response.css('a.next.page-numbers::attr(href)').extract_first("")
         if next_urls:
-            yield Request(url=next_urls, callback=self)
-
-
+            yield Request(url=parse.urljoin(response.url, next_urls), callback=self.parse)
 
     def parse_detail(self, response):
-        # 提取文章的具体字段
-
+        """
+        提取文章的具体字段
+        :param response:
+        :return:
+        """
         # 获取文章的title
-        title = response.xpath('//div[@class="entry-header"]/h1/text()').extract()[0]
+        title = response.xpath('//div[@class="entry-header"]/h1/text()').extract_first()
 
         # 获取文章的创建时间
         create_time = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/text()').extract()[0].strip().replace('·', '').strip()
+
 
         # 获取文章的点赞数
         praise_nums = int(response.xpath("//span[contains(@class, 'vote-post-up')]/h10/text()").extract()[0])
