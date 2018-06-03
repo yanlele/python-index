@@ -22,7 +22,7 @@ class JobboleCssSelecterSpider(scrapy.Spider):
         fav_nums = response.css("span.bookmark-btn::text").extract()[0]
         match_re = re.match('.*?(\d+).*', fav_nums)
         if match_re:
-            fav_nums = match_re.group(1)
+            fav_nums = int(match_re.group(1))
         else:
             fav_nums = 0
 
@@ -30,7 +30,7 @@ class JobboleCssSelecterSpider(scrapy.Spider):
         comment_num = response.css("a[href='#article-comment'] span::text").extract()[0]
         match_re = re.match('.*?(\d+).*', comment_num)
         if match_re:
-            comment_num = match_re.group(1)
+            comment_num = int(match_re.group(1))
         else:
             comment_num = 0
 
