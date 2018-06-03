@@ -15,3 +15,5 @@ class ArticlespiderItem(scrapy.Item):
 
 class ArticleItem(scrapy.Item):
     title = scrapy.Field()      # 只能指定这个类型
+    create_date = scrapy.Field()
+    url = scrapy.Field()

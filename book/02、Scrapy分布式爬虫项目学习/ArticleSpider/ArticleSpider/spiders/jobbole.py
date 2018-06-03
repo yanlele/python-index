@@ -18,10 +18,12 @@ class JobboleSpider(scrapy.Spider):
         2、获取下一页的url 并交给scrapy进行下载，下载完成之后交给parse函数
         """
         # 解析列表页中的所有文章url并交给scrapy下载后并进行解析
-        post_urls = response.css("#archive div.floated-thumb .post-thumb a::attr(href)").extract()
-        for post_url in post_urls:
+        post_nodes = response.css("#archive div.floated-thumb .post-thumb a")
+        for post_node in post_nodes:
+            image_url = post_node.css("img::attr(src)").extract_first("")
+            post_url = post_node.css("::attr(href)").extract_first("")
             url = parse.urljoin(response.url, post_url)         # 这个会自动帮我们拼接我们想要的url地址： parse.urljoin(base_url, url)
-            yield Request(url=url, callback=self.parse_detail, dont_filter=True)
+            yield Request(url=url, callback=self.parse_detail, meta={"front_image_url": image_url}, dont_filter=True)
 
         # 提取下一页交给 scrapy 来进行下载
         next_urls = response.css('a.next.page-numbers::attr(href)').extract_first("")
@@ -34,6 +36,9 @@ class JobboleSpider(scrapy.Spider):
         :param response:
         :return:
         """
+        # 获取title的图片(封面图) 这个地方我们可以通过字典的方式来查找，也可以通过get的方式来查找，建议get方式，这样不会出现异常
+        font_image_url = response.meta.get("front_image_url", "")
+
         # 获取文章的title
         title = response.xpath('//div[@class="entry-header"]/h1/text()').extract_first()
 

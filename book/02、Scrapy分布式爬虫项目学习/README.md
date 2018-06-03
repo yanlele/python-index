@@ -303,6 +303,8 @@ def parse(self, response):
 ### <div id='class04-04'>4、文章存储问题</div>                 
 - 关于items的使用，我们可以在这里实现具体提取的文章字段逻辑
 
+这个地方要介绍一下Request 模块中 meta的使用，meta接受的是一个对象字典，可以直接带到response中去
+
 
 
 
