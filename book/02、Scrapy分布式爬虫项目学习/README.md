@@ -12,7 +12,7 @@
 模式：     
 `re.match('模式字符串', '需要匹配的字符换')`返回的是一个布尔类型       
 
-1、特殊字符          
+**特殊字符**                             
 
 |符号|含义|     
 |:-|:-|     
@@ -102,11 +102,11 @@ if match_obj:
     print(match_obj.group(1))
 ```
 
-### <div id='class03-01'>1、深度优先</div>                 
+### <div id='class03-02'>2、深度优先</div>                 
 
 
 ## <div id='class04'>04章、scrapy爬取致命技术文章网站</div>  
-### 1、安装scrapy 
+### <div id='class04-01'>1、安装scrapy</div> 
 如果scrapy安装失败，我们可以选择离线安装           
 - [python离线安装包](https://www.lfd.uci.edu/~gohlke/pythonlibs/)
 - [解决pip安装速度过慢的问题](../../18年/05月/02、解决pip安装速度过慢的问题/)
@@ -122,8 +122,8 @@ You can start your first spider with:
 ```
 这样来创建我们所需要爬取网站的一个python 模板: `scrapy genspider jobbole blog.jobbole.com`         
 
-### 2、爬虫项目的开始：抓取一篇文章             
-**2.1、我们首先可以写一个测试的文件，文件中直接调用jobbole.py就可以达到调试的目的了**             
+### <div id='class04-02'>2、爬虫项目的开始：抓取一篇文章</div>             
+- 2.1、我们首先可以写一个测试的文件，文件中直接调用jobbole.py就可以达到调试的目的了             
 在测试文件main.py中，有这样一段代码：          
 ```python
 import sys
@@ -148,7 +148,7 @@ execute(["scrapy", "crawl", "jobbole"])
 ```
 我们可以打断点调试，就可以看到jobbole.py中response的一些列信息了
 
-**2.2、xpath**                
+- 2.2、xpath                
 基础语法            
 
 |表达式|说明|
@@ -183,7 +183,7 @@ xpath语法 - 其他
 
 补充：由于markdown语法限制，上述“或者”实际上是 “|”
 
-**2.3、通过xpath来抓取节点的一个简单实例**             
+- 2.3、通过xpath来抓取节点的一个简单实例             
 ```python
 import scrapy
 
@@ -264,7 +264,7 @@ class JobboleSpider(scrapy.Spider):
 [xpath爬取数据实例](./ArticleSpider/ArticleSpider/spiders/jobbole.py)
 
 
-**2.4、通过css选择器爬取数据的实现**
+- 2.4、通过css选择器爬取数据的实现
  
 **利用css选择器**
 [css选择器爬取数据实例](./ArticleSpider/ArticleSpider/spiders/jobbole_css_selecter.py)
@@ -273,7 +273,7 @@ class JobboleSpider(scrapy.Spider):
 **使用extract()[0]的时候是有风险的，因为有的时候，有可能没有获取到数组，然后去第一个数组元素，是会抛出异常的， 我们可以使用 extract_first() 方法来代替extract()[0]， extract_first()还可以接受一个参数，就是没有找到对象的时候，用接受参数来代替就可以了。**               
 
 
-### 抓取多篇文章
+### <div id='class04-03'>3、抓取多篇文章</div>                 
 
 ```python
 from scrapy.http import Request
@@ -300,6 +300,8 @@ def parse(self, response):
 还有一个很重要的地方: [关于scrapy - Request 中的回调函数不执行 的问题研究](https://blog.csdn.net/honglicu123/article/details/75453107) ` dont_filter=True`                
 [Scrapy-Request和Response（请求和响应）模块的研究](https://blog.csdn.net/weixin_37947156/article/details/74974208)                       
 
+### <div id='class04-04'>4、文章存储问题</div>                 
+- 关于items的使用，我们可以在这里实现具体提取的文章字段逻辑
 
 
 
