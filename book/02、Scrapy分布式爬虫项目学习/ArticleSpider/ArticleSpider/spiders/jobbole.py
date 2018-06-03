@@ -20,8 +20,13 @@ class JobboleSpider(scrapy.Spider):
         # 解析列表页中的所有文章url并交给scrapy下载后并进行解析
         post_urls = response.css("#archive div.floated-thumb .post-thumb a::attr(href)").extract()
         for post_url in post_urls:
-            url = parse.urljoin(response.url, post_url)
+            url = parse.urljoin(response.url, post_url)         # 这个会自动帮我们拼接我们想要的url地址： parse.urljoin(base_url, url)
             yield Request(url=url, callback=self.parse_detail, dont_filter=True)
+
+        # 提取下一页交给 scrapy 来进行下载
+        next_urls = response.css('a.next.page-numbers::attr(href)').extract_first("")
+        if next_urls:
+            yield Request(url=parse.urljoin(response.url, next_urls), callback=self.parse)
 
     def parse_detail(self, response):
         """
