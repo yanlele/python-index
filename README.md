@@ -15,3 +15,4 @@
 - [python离线安装包](https://www.lfd.uci.edu/~gohlke/pythonlibs/)
 - [解决pip安装速度过慢的问题](./18年/05月/02、解决pip安装速度过慢的问题/)
 - [查看自己python所支持的whl文件类型](./18年/05月/03、查看自己python所支持的whl文件类型/)
+- [在爬虫项目中会遇到ip代理池的相关问题，可以稍微看一下这篇文章](https://blog.csdn.net/u011781521/article/details/70194744?locationNum=4&fps=1)
