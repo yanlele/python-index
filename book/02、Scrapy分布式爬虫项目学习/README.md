@@ -275,6 +275,34 @@ class JobboleSpider(scrapy.Spider):
 
 ### 抓取多篇文章
 
+```python
+from scrapy.http import Request
+from urllib import parse
+
+"""skip"""
+
+def parse(self, response):
+    """
+    1、获取文章列表页面的具体文章url并交给scrapy下载，然后交给解析函数进行具体字段的解析
+    2、获取下一页的url 并交给scrapy进行下载，下载完成之后交给parse函数
+    """
+    # 解析列表页中的所有文章url并交给scrapy下载后并进行解析
+    post_urls = response.css("#archive div.floated-thumb .post-thumb a::attr(href)").extract()
+    for post_url in post_urls:
+        yield Request(url=parse.urljoin(response.url, post_url), callback=self.parse_detail, dont_filter=True)
+
+    # 提取下一页交给 scrapy 来进行下载
+    next_urls = response.css('a.next.page-numbers::attr(href)').extract_first("")
+    if next_urls:
+        yield Request(url=parse.urljoin(response.url, next_urls), callback=self.parse)
+```
+其中 `parse_detail` 方法，就是我们上面用到的那个获取具体文章的实现           
+还有一个很重要的地方: [关于scrapy - Request 中的回调函数不执行 的问题研究](https://blog.csdn.net/honglicu123/article/details/75453107) ` dont_filter=True`                
+[Scrapy-Request和Response（请求和响应）模块的研究](https://blog.csdn.net/weixin_37947156/article/details/74974208)                       
+
+
+
+
 
 
 
