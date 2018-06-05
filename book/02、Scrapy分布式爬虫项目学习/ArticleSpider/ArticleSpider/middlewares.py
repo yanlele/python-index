@@ -113,3 +113,6 @@ class RandomUserAgentMiddleware(object):
     @classmethod
     def from_crawler(cls, crawler):
         return cls(crawler)
+
+    def process_request(self, request, spider):
+        request.headers.setdefault("User-Agent", random())

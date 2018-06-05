@@ -6,6 +6,7 @@ constantly==15.1.0
 cryptography==2.2.2
 cssselect==1.0.3
 cycler==0.10.0
+fake-useragent==0.1.10
 hyperlink==18.0.0
 idna==2.6
 incremental==17.5.0
@@ -23,8 +24,10 @@ pygal-maps-world==1.0.2
 pygame==1.9.3
 pyOpenSSL==18.0.0
 pyparsing==2.2.0
+pypiwin32==223
 python-dateutil==2.7.3
 pytz==2018.4
+pywin32==223
 queuelib==1.5.0
 Scrapy==1.5.0
 service-identity==17.0.0
