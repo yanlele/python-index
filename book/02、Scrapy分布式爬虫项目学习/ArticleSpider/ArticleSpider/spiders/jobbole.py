@@ -12,6 +12,11 @@ class JobboleSpider(scrapy.Spider):
     allowed_domains = ['blog.jobbole.com/']
     start_urls = ['http://blog.jobbole.com/all-posts/']
 
+    headers = {
+        "HOST": "blog.jobbole.com",
+        "Referer": "http://blog.jobbole.com/all-posts/",
+    }
+
 
 
     def parse(self, response):
@@ -25,12 +30,12 @@ class JobboleSpider(scrapy.Spider):
             image_url = post_node.css("img::attr(src)").extract_first("")
             post_url = post_node.css("::attr(href)").extract_first("")
             url = parse.urljoin(response.url, post_url)         # 这个会自动帮我们拼接我们想要的url地址： parse.urljoin(base_url, url)
-            yield Request(url=url, callback=self.parse_detail, meta={"front_image_url": image_url}, dont_filter=True)
+            yield Request(url=url, callback=self.parse_detail, headers=self.headers, meta={"front_image_url": image_url}, dont_filter=True)
 
         # 提取下一页交给 scrapy 来进行下载
         next_urls = response.css('a.next.page-numbers::attr(href)').extract_first("")
         if next_urls:
-            yield Request(url=parse.urljoin(response.url, next_urls), callback=self.parse)
+            yield Request(url=parse.urljoin(response.url, next_urls), headers=self.headers, callback=self.parse)
 
     def parse_detail(self, response):
         """

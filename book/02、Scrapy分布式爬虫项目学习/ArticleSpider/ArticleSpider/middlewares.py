@@ -108,12 +108,19 @@ class RandomUserAgentMiddleware(object):
     """随机更换user-agent"""
     def __init__(self, crawler):
         super(RandomUserAgentMiddleware, self).__init__()
-        self.user_agent_list = crawler.settings.get("user_agent_list", [])
         self.ua = UserAgent()
+        self.ua_type = crawler.settings.get("RANDOM_UA_TYPE", "random")
 
     @classmethod
     def from_crawler(cls, crawler):
         return cls(crawler)
 
     def process_request(self, request, spider):
-        request.headers.setdefault("User-Agent", self.ua.random())
+        def get_ua():
+            return getattr(self.ua, self.ua_type)       # 这种函数写法，表示去里面的某个值
+
+        random_agent = get_ua()
+        request.headers.setdefault("User-Agent", get_ua())
+
+        # 设置一个简单的ip代理
+        request.meta["proxy"] = "http://123.114.61.124:8118"

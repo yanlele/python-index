@@ -53,8 +53,8 @@ DOWNLOAD_DELAY = 5
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   'ArticleSpider.middlewares.ArticlespiderDownloaderMiddleware': 543,
-'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+   'ArticleSpider.middlewares.RandomUserAgentMiddleware': 543,
+   'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
 }
 
 # Enable or disable extensions
@@ -93,4 +93,4 @@ ITEM_PIPELINES = {
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0"
 
-
+RANDOM_UA_TYPE = "random"
