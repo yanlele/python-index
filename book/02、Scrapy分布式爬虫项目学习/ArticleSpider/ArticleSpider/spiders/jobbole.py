@@ -9,15 +9,13 @@ from ArticleSpider.items import JobBoleArticleItem
 
 class JobboleSpider(scrapy.Spider):
     name = 'jobbole'
-    allowed_domains = ['blog.jobbole.com/']
-    start_urls = ['http://blog.jobbole.com/all-posts/']
+    allowed_domains = ['web.jobbole.com/']
+    start_urls = ['http://web.jobbole.com/all-posts/']
 
     headers = {
-        "HOST": "blog.jobbole.com",
-        "Referer": "http://blog.jobbole.com/all-posts/",
+        "HOST": "web.jobbole.com",
+        "Referer": "http://web.jobbole.com/all-posts/",
     }
-
-
 
     def parse(self, response):
         """

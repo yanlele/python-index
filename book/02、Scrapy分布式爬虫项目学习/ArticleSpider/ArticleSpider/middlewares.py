@@ -120,7 +120,7 @@ class RandomUserAgentMiddleware(object):
             return getattr(self.ua, self.ua_type)       # 这种函数写法，表示去里面的某个值
 
         random_agent = get_ua()
-        request.headers.setdefault("User-Agent", get_ua())
+        request.headers.setdefault("User-Agent", random_agent)
 
         # 设置一个简单的ip代理
-        request.meta["proxy"] = "http://123.114.61.124:8118"
+        # request.meta["proxy"] = "http://123.57.217.208:3128"

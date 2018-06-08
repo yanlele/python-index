@@ -336,6 +336,8 @@ class JobBoleArticleItem(scrapy.Item):
 
 然后把我们这个定义好的类，注入到spiders.py中去，用于保存相关数据               
 
+- 关于自动获取图片，然后保存的中间件问题：
+
 
 
 
