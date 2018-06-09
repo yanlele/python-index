@@ -336,7 +336,18 @@ class JobBoleArticleItem(scrapy.Item):
 
 然后把我们这个定义好的类，注入到spiders.py中去，用于保存相关数据               
 
-- 关于自动获取图片，然后保存的中间件问题：
+- 关于自动获取图片，然后保存的中间件问题：              
+首先要处理settings里面的配置：         
+```python
+ITEM_PIPELINES = {
+    'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
+    'scrapy.pipelines.images.ImagesPipeline': 1
+}
+IMAGES_URLS_FIELD = "font_image_url"        # 需要保存图片的字段，需要注意的是，要接受的是一个数组
+project_dir = os.path.abspath(os.path.dirname(__file__))        # 获取当前文件的路径的父级路径
+IMAGES_STORE = os.path.join(project_dir, 'images')              # 获取保存图片的路径
+```
+这个配置的数值，越小就越先执行，这样我们就可以自动获取图片然后保存了                 
 
 
 
