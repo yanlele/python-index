@@ -12,4 +12,4 @@ class ArticlespiderPipeline(object):
         return item
 
 
-class ArticleImagePipeline(ImagesPipeline):
+# class ArticleImagePipeline(ImagesPipeline):
