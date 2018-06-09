@@ -345,9 +345,19 @@ ITEM_PIPELINES = {
 }
 IMAGES_URLS_FIELD = "font_image_url"        # 需要保存图片的字段，需要注意的是，要接受的是一个数组
 project_dir = os.path.abspath(os.path.dirname(__file__))        # 获取当前文件的路径的父级路径
-IMAGES_STORE = os.path.join(project_dir, 'images')              # 获取保存图片的路径
+IMAGES_STORE = os.path.join(project_dir, 'images')              # 获取保存图片的路径IMAGES_MIN_HEIGHT = 100     # 下载的图片最小的高度
+IMAGES_MIN_WIDTH = 100      # 下载的图片最小宽度
+
 ```
 这个配置的数值，越小就越先执行，这样我们就可以自动获取图片然后保存了                 
+
+- 处理图片保存的路径，跟我们本地路径绑定起来，然后再保存到font_image_path里面储存起来                     
+这个时候我们就要建立自己的pipelines了             
+```python
+from scrapy.pipelines.images import ImagesPipeline
+class ArticleImagePipeline(ImagesPipeline):
+```
+定义的对象继承了ImagesPipeline， 首先看看里面有什么重要的用法：
 
 
 

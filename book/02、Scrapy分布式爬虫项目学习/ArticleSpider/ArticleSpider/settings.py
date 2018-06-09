@@ -73,6 +73,8 @@ ITEM_PIPELINES = {
 IMAGES_URLS_FIELD = "font_image_url"        # 需要保存图片的字段，需要注意的是，要接受的是一个数组
 project_dir = os.path.abspath(os.path.dirname(__file__))        # 获取当前文件的路径的父级路径
 IMAGES_STORE = os.path.join(project_dir, 'images')              # 获取保存图片的路径
+# IMAGES_MIN_HEIGHT = 100     # 下载的图片最小的高度
+# IMAGES_MIN_WIDTH = 100      # 下载的图片最小宽度
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
