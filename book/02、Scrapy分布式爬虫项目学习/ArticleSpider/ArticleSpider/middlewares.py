@@ -123,4 +123,4 @@ class RandomUserAgentMiddleware(object):
         request.headers.setdefault("User-Agent", random_agent)
 
         # 设置一个简单的ip代理
-        # request.meta["proxy"] = "https://121.41.171.223:3128"
+        # request.meta["proxy"] = "https://119.10.67.144:808"

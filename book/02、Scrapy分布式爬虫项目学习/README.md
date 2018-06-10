@@ -345,9 +345,9 @@ ITEM_PIPELINES = {
 }
 IMAGES_URLS_FIELD = "font_image_url"        # 需要保存图片的字段，需要注意的是，要接受的是一个数组
 project_dir = os.path.abspath(os.path.dirname(__file__))        # 获取当前文件的路径的父级路径
-IMAGES_STORE = os.path.join(project_dir, 'images')              # 获取保存图片的路径IMAGES_MIN_HEIGHT = 100     # 下载的图片最小的高度
+IMAGES_STORE = os.path.join(project_dir, 'images')              # 获取保存图片的路径
+IMAGES_MIN_HEIGHT = 100     # 下载的图片最小的高度
 IMAGES_MIN_WIDTH = 100      # 下载的图片最小宽度
-
 ```
 这个配置的数值，越小就越先执行，这样我们就可以自动获取图片然后保存了                 
 
@@ -357,7 +357,51 @@ IMAGES_MIN_WIDTH = 100      # 下载的图片最小宽度
 from scrapy.pipelines.images import ImagesPipeline
 class ArticleImagePipeline(ImagesPipeline):
 ```
-定义的对象继承了ImagesPipeline， 首先看看里面有什么重要的用法：
+定义的对象继承了ImagesPipeline， 首先看看里面有什么重要的用法：                 
+`get_media_requests`:           
+`item_completed`: 重载这个方法之后我们可以冲这个文件中获取到我们实际的下载地址            
+我们这里就要用到重载方法 `item_completed`:          
+```python
+from scrapy.pipelines.images import ImagesPipeline
+class ArticleImagePipeline(ImagesPipeline):
+    def item_completed(self, results, item, info):
+        # 我们可以通过results 来获取到文件的实际存储路径
+        for ok,value in results:
+            image_file_path = value["path"]
+        item["font_image_path"] = image_file_path
+        
+        return item
+```
+在settings.py设置文件中，做如下的设置修改：               
+```python
+ITEM_PIPELINES = {
+    'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
+    # 'scrapy.pipelines.images.ImagesPipeline': 1,
+    'ArticleSpider.pipelines.ArticleImagePipeline': 1
+}
+```
+这样之后，在再打个个断点在 `pipelines.ArticlespiderPipeline` 的return item 身上，这个时候，我们就可以这个front_image_path                
+
+- 对url做一个MD5 编码，减少url占用的存储空间                
+我们先要定义一个公共的方法，做md5的转换工作：路径为 `ArticleSpider/ArticleSpider/utils/common.py`           
+```python
+import hashlib
+
+def get_md5(url):
+    if isinstance(url, str):
+        url = url.encode("urf-8")
+    m = hashlib.md5()
+    m.update(url)
+    return m.hexdigest()
+```
+这个时候我们将我们定义好的方法，导入到 `spiders/jobbole.py文件中去`：               
+```python
+from ArticleSpider.utils.common import get_md5
+"""skip"""
+article_item["url_object_id"] = get_md5(response.url)
+```
+这样就实现了我们MD5的转换，而且注入到了pipelines              
+
 
 
 

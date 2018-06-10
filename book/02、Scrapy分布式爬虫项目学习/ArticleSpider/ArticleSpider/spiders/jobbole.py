@@ -5,6 +5,7 @@ from scrapy.http import Request
 from urllib import parse
 
 from ArticleSpider.items import JobBoleArticleItem
+from ArticleSpider.utils.common import get_md5
 
 
 class JobboleSpider(scrapy.Spider):
@@ -82,6 +83,7 @@ class JobboleSpider(scrapy.Spider):
         tags = ','.join(tag_list)
 
         # 填充article_item
+        article_item["url_object_id"] = get_md5(response.url)
         article_item["title"] = title
         article_item["url"] = response.url
         article_item["create_date"] = create_date
