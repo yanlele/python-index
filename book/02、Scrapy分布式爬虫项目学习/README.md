@@ -432,6 +432,35 @@ ITEM_PIPELINES = {
 
 
 - scrapy本身提供了写入文件的一种机制， 可以方便的将我们的items到处为任何文件                             
+```python
+from scrapy.exporters import JsonItemExporter
+class JsonExporterPipeline(object):
+    # 调用scrapy提供的json export到处json文件
+    def __init__(self):
+        self.file = open('articleExport.json', 'wb')
+        self.exporter = JsonItemExporter(self.file, encoding="utf-8", ensure_ascii=False)
+        self.exporter.start_exporting()
+
+    def close_spider(self, spider):
+        self.exporter.finish_exporting()
+        self.file.close()
+
+    def process_item(self, item, spider):
+        self.exporter.export_item(item)
+        return item
+```
+然后在 `settings.py` 文件中做如下的配置变更：      
+```python
+ITEM_PIPELINES = {
+    # 'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
+    # 'ArticleSpider.pipelines.JsonWithEncodingPipeline': 2,
+    'ArticleSpider.pipelines.JsonExporterPipeline': 2,
+    # 'scrapy.pipelines.images.ImagesPipeline': 1,
+    'ArticleSpider.pipelines.ArticleImagePipeline': 1
+}
+```
+然后运行，就可以测试文件，就可以成功写入我们的json文件了，如果我们顺利的爬取到了所有的我们想要的数据之后，这个时候，程序会给我们前后多加一个大括号（方便数据的读取）；                                 
+
 
 
 
