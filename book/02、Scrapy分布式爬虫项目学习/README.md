@@ -402,6 +402,38 @@ article_item["url_object_id"] = get_md5(response.url)
 ```
 这样就实现了我们MD5的转换，而且注入到了pipelines              
 
+- 保存到数据库                
+首先我们要在 `pipelines.py` 文件中定义一个数据转为json的类             
+```python
+import codecs
+import json
+class JsonWithEncodingPipeline(object):
+    def __init__(self):
+        self.file = codecs.open('article.json', 'w', encoding="utf-8")
+
+    def process_item(self, item, spider):
+        lines = json.dumps(dict(item), ensure_ascii=False) + "\n"
+        self.file.write(lines)
+        return item
+
+    def spider_closed(self, spider):
+        self.file.close()
+```         
+然后把这个pipelines的类，注入到settings里面去， 修改配置如下：            
+```python
+ITEM_PIPELINES = {
+    # 'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
+    'ArticleSpider.pipelines.JsonWithEncodingPipeline': 2,
+    # 'scrapy.pipelines.images.ImagesPipeline': 1,
+    'ArticleSpider.pipelines.ArticleImagePipeline': 1
+}
+```
+然后运行，就可以测试文件，就可以成功写入我们的json文件了              
+
+
+- scrapy本身提供了写入文件的一种机制， 可以方便的将我们的items到处为任何文件                             
+
+
 
 
 

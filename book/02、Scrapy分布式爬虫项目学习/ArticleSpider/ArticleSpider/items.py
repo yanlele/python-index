@@ -18,7 +18,7 @@ class JobBoleArticleItem(scrapy.Item):
     title = scrapy.Field()  # 只能指定这个类型
     create_date = scrapy.Field()
     url = scrapy.Field()
-    url_object_url = scrapy.Field()
+    url_object_id = scrapy.Field()
     font_image_url = scrapy.Field()
     font_image_path = scrapy.Field()  # 本地存储路径
     praise_nums = scrapy.Field()
