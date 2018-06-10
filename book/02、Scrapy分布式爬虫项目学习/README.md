@@ -461,6 +461,77 @@ ITEM_PIPELINES = {
 ```
 然后运行，就可以测试文件，就可以成功写入我们的json文件了，如果我们顺利的爬取到了所有的我们想要的数据之后，这个时候，程序会给我们前后多加一个大括号（方便数据的读取）；                                 
 
+- **储存到数据库中**                   
+在此之前，我们需要把我们保存的时间字符串转换为我们数据库能保存的时间对象            
+```python
+import datetime
+"""skip"""
+try:
+    create_date = datetime.datetime.strptime(create_date, "%Y/%m/%d").date()
+except Exception as e:
+    create_date = datetime.datetime.now().date()
+article_item["create_date"] = create_date
+"""skip"""
+```
+
+做如下的数据表结构设计，按着我们定义保存的字段来就好了：            
+```sql
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for article
+-- ----------------------------
+DROP TABLE IF EXISTS `article`;
+CREATE TABLE `article` (
+  `title` varchar(200) NOT NULL,
+  `create_date` date DEFAULT NULL,
+  `url` varchar(300) NOT NULL,
+  `url_object_id` varchar(50) NOT NULL,
+  `font_image_url` varchar(300) DEFAULT NULL,
+  `font_image_path` varchar(200) DEFAULT NULL,
+  `praise_nums` int(11) NOT NULL DEFAULT '0',
+  `comment_num` int(11) NOT NULL DEFAULT '0',
+  `fav_nums` int(11) NOT NULL DEFAULT '0',
+  `tags` varchar(200) DEFAULT NULL,
+  `content` longtext,
+  PRIMARY KEY (`url_object_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+然后需要安装mysql的驱动: `pip install -i https://pypi.douban.com/simple/ mysqlclient`            
+安装完成之后，可以在我们的pipeline中定义我们存储mysql的实现类了哟；            
+```python
+import MySQLdb
+class MysqlPipeline(object):
+    def __init__(self):
+        self.conn = MySQLdb.connect('127.0.0.1', 'root', '53693750', '0001_article_spider', charset="utf8", use_unicode=True)
+        self.cursor = self.conn.cursor()
+
+    def process_item(self, item, spider):
+        # jobbole_article
+        insert_sql = """
+            insert into jobbole_article(title, create_date, url, url_object_id, font_image_url, font_image_path, praise_nums, comment_num, fav_nums, tags, content)
+            values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        self.cursor.execute(insert_sql, (item["title"], item["create_date"], item["url"], item["url_object_id"],
+                                         item["font_image_url"], item["font_image_path"], item["praise_nums"],
+                                         item["comment_num"], item["fav_nums"], item["tags"], item["content"]))
+        self.conn.commit()
+```
+
+然后修改我们的settings:            
+```python
+ITEM_PIPELINES = {
+    # 'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
+    # 'ArticleSpider.pipelines.JsonWithEncodingPipeline': 2,
+    # 'ArticleSpider.pipelines.JsonExporterPipeline': 2,
+    'scrapy.pipelines.images.ImagesPipeline': 1,
+    'ArticleSpider.pipelines.ArticleImagePipeline': 2,
+    'ArticleSpider.pipelines.MysqlPipeline': 3
+}
+```
+然后执行sql， 就可以得到我们期望的数据了！
+
 
 
 
