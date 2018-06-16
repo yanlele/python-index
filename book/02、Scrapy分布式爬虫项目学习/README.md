@@ -3,7 +3,14 @@
 **目录**
 - [第三章、爬虫基础知识](#class03)
     - [1、正则表达式专题](#class03-01)
-- [第四章、scrapy爬取致命技术文章网站](#class04)
+    - [2、2、深度优先](#class03-02)
+- [第四章、scrapy爬取技术文章网站](#class04)
+    - [1、04章、scrapy爬取致命技术文章网站](#class04-01)
+    - [2、爬虫项目的开始：抓取一篇文章](#class04-02)
+    - [3、抓取多篇文章](#class04-03)
+    - [4、文章存储问题](#class04-04)
+    - [5、scrapy:item loader机制](#class04-05)
+
 
 
 ## <div id='class03'>第三章、爬虫基础知识</div>
@@ -781,6 +788,9 @@ class JobBoleArticleItem(scrapy.Item):
     )
     content = scrapy.Field()
 ```
+
+
+
 
 
 
