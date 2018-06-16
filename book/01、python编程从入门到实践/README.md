@@ -1605,6 +1605,9 @@ else:
     - [绘制完整的世界人口地图](./项目2、数据可视化/16章、下载数据/world_population4.py)
     - [根据人口数量将国家分组](./项目2、数据可视化/16章、下载数据/world_population5.py)
     - [使用 Pygal 设置世界地图的样式](./项目2、数据可视化/16章、下载数据/world_population6.py)
+    这个地方是可以更换主题颜色的：         
+    `from pygal.style import LightColorizedStyle`
+    
     
 
 
