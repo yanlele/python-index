@@ -73,10 +73,10 @@ class MysqlTwistedPipeline(object):
         # 使用twisted, 将mysql插入变为异步操作
         # jobbole_article
         query = self.dbpool.runInteraction(self.do_insert, item)
-        query.addErrorback(self.handle_error, item, spider)     # 处理异常
+        query.addErrback(self.handle_error, item, spider)  # 处理异常
 
     def handle_error(self, failure, item, spider):
-        # 处理异步插入数据异常
+        # 处理异步插入的异常
         print(failure)
 
     def do_insert(self, cursor, item):

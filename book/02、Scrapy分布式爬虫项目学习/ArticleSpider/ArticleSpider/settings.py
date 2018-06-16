@@ -108,7 +108,7 @@ USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:51.0) Gecko/20100101 Firefo
 RANDOM_UA_TYPE = "random"
 
 MYSQL_HOST = '127.0.0.1'
-MYSQL_DBNAME = 'jobbole_article'
+MYSQL_DBNAME = '0001_article_spider'
 MYSQL_USER = 'root'
 MYSQL_PASSWORD = '53693750'
 
