@@ -394,6 +394,8 @@ def get_md5(url):
     m.update(url)
     return m.hexdigest()
 ```
+
+**存储到json中去：**                              
 这个时候我们将我们定义好的方法，导入到 `spiders/jobbole.py文件中去`：               
 ```python
 from ArticleSpider.utils.common import get_md5
@@ -531,6 +533,8 @@ ITEM_PIPELINES = {
 }
 ```
 然后执行sql， 就可以得到我们期望的数据了！
+
+
 
 
 

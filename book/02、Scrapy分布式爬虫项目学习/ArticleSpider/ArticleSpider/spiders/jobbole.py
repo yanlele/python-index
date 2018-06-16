@@ -11,7 +11,7 @@ from ArticleSpider.utils.common import get_md5
 
 class JobboleSpider(scrapy.Spider):
     name = 'jobbole'
-    allowed_domains = ['web.jobbole.com/']
+    allowed_domains = ['web.jobbole.com']
     start_urls = ['http://web.jobbole.com/all-posts/']
 
     headers = {
@@ -35,7 +35,7 @@ class JobboleSpider(scrapy.Spider):
         # 提取下一页交给 scrapy 来进行下载
         next_urls = response.css('a.next.page-numbers::attr(href)').extract_first("")
         if next_urls:
-            yield Request(url=parse.urljoin(response.url, next_urls), headers=self.headers, callback=self.parse)
+            yield Request(url=parse.urljoin(response.url, next_urls), callback=self.parse)
 
     def parse_detail(self, response):
         """
