@@ -5,6 +5,8 @@ import datetime
 
 from scrapy.http import Request
 from urllib import parse
+from scrapy.loader import ItemLoader
+
 from ArticleSpider.items import JobBoleArticleItem
 from ArticleSpider.utils.common import get_md5
 
@@ -98,6 +100,22 @@ class JobboleSpider(scrapy.Spider):
         article_item["fav_nums"] = fav_nums
         article_item["tags"] = tags
         article_item["content"] = content
+
+        # 通过item_loader来加载loader
+
+        item_loader = ItemLoader(item=JobBoleArticleItem(), response=response)
+        item_loader.add_css("title", ".entry-header h1::text")
+        item_loader.add_value("url", response.url)
+        item_loader.add_value("url_object_id", get_md5(response.url))
+        item_loader.add_css("create_date", "p.entry-meta-hide-on-mobile::text")
+        item_loader.add_value("font_image_url", [font_image_url])
+        item_loader.add_css("praise_nums", ".vote-post-up h10::text")
+        item_loader.add_css("comment_num", "a[href='#article-comment'] span::text")
+        item_loader.add_css("fav_nums", ".bookmark-btn::text")
+        item_loader.add_css("tags", "p.entry-meta-hide-on-mobile a::text")
+        item_loader.add_css("content", "div.entry")
+
+        article_item = item_loader.load_item()
 
         # 传递到pipelines.py
         yield article_item

@@ -34,6 +34,7 @@ class JsonWithEncodingPipeline(object):
 
 
 class MysqlPipeline(object):
+    """采用同步的方式写入数据"""
     def __init__(self):
         self.conn = MySQLdb.connect('127.0.0.1', 'root', '53693750', '0001_article_spider', charset="utf8",
                                     use_unicode=True)
@@ -52,6 +53,7 @@ class MysqlPipeline(object):
 
 
 class MysqlTwistedPipeline(object):
+    """采用异步的方式写入数据"""
     def __init__(self, dbpool):
         self.dbpool = dbpool
 

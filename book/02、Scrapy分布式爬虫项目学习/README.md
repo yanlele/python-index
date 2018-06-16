@@ -301,7 +301,7 @@ def parse(self, response):
 [Scrapy-Request和Response（请求和响应）模块的研究](https://blog.csdn.net/weixin_37947156/article/details/74974208)                       
 
 ### <div id='class04-04'>4、文章存储问题</div>                 
-- 关于items的使用，我们可以在这里实现具体提取的文章字段逻辑
+> 关于items的使用，我们可以在这里实现具体提取的文章字段逻辑
 
 这个地方要介绍一下Request 模块中 meta的使用，meta接受的是一个对象字典，可以直接带到response中去。通过这个原则，我们可以获取到一片文章的title 图片。                   
 ```python
@@ -336,7 +336,8 @@ class JobBoleArticleItem(scrapy.Item):
 
 然后把我们这个定义好的类，注入到spiders.py中去，用于保存相关数据               
 
-- 关于自动获取图片，然后保存的中间件问题：              
+> 关于自动获取图片，然后保存的中间件问题：              
+
 首先要处理settings里面的配置：         
 ```python
 ITEM_PIPELINES = {
@@ -382,7 +383,8 @@ ITEM_PIPELINES = {
 ```
 这样之后，在再打个个断点在 `pipelines.ArticlespiderPipeline` 的return item 身上，这个时候，我们就可以这个front_image_path                
 
-- 对url做一个MD5 编码，减少url占用的存储空间                
+>　对url做一个MD5 编码，减少url占用的存储空间                
+
 我们先要定义一个公共的方法，做md5的转换工作：路径为 `ArticleSpider/ArticleSpider/utils/common.py`           
 ```python
 import hashlib
@@ -433,7 +435,8 @@ ITEM_PIPELINES = {
 然后运行，就可以测试文件，就可以成功写入我们的json文件了              
 
 
-- scrapy本身提供了写入文件的一种机制， 可以方便的将我们的items到处为任何文件                             
+> scrapy本身提供了写入文件的一种机制， 可以方便的将我们的items到处为任何文件                             
+
 ```python
 from scrapy.exporters import JsonItemExporter
 class JsonExporterPipeline(object):
@@ -463,7 +466,8 @@ ITEM_PIPELINES = {
 ```
 然后运行，就可以测试文件，就可以成功写入我们的json文件了，如果我们顺利的爬取到了所有的我们想要的数据之后，这个时候，程序会给我们前后多加一个大括号（方便数据的读取）；                                 
 
-- **储存到数据库中**                   
+> **储存到数据库中**                   
+
 在此之前，我们需要把我们保存的时间字符串转换为我们数据库能保存的时间对象            
 ```python
 import datetime
@@ -472,7 +476,7 @@ try:
     create_date = datetime.datetime.strptime(create_date, "%Y/%m/%d").date()
 except Exception as e:
     create_date = datetime.datetime.now().date()
-article_item["create_date"] = create_date
+    article_item["create_date"] = create_date
 """skip"""
 ```
 
@@ -600,6 +604,70 @@ ITEM_PIPELINES = {
     # 'ArticleSpider.pipelines.MysqlPipeline': 3
     'ArticleSpider.pipelines.MysqlTwistedPipeline': 3
 }
+```
+
+### <div id='class04-05'>5、scrapy:item loader机制</div>               
+item_loader一共有三个比较重要的方法：            
+`
+item_loader.add_css()
+item_loader.add_xpath()
+item_loader.add_value()
+`
+首先我们需要在 `jobbole.py` 中定义我们的loader:              
+```python
+from ArticleSpider.items import JobBoleArticleItem
+from scrapy.loader import ItemLoader
+
+    """skip"""
+    # 通过item_loader来加载loader
+    item_loader = ItemLoader(item=JobBoleArticleItem(), response=response)
+    item_loader.add_css("title", ".entry-header h1::text")
+    item_loader.add_value("url", response.url)
+    item_loader.add_value("url_object_id", get_md5(response.url))
+    item_loader.add_css("create_date", "p.entry-meta-hide-on-mobile::text")
+    item_loader.add_value("font_image_url", [font_image_url])
+    item_loader.add_css("praise_nums", ".vote-post-up h10::text")
+    item_loader.add_css("comment_num", "a[href='#article-comment'] span::text")
+    item_loader.add_css("fav_nums", ".bookmark-btn::text")
+    item_loader.add_css("tags", "p.entry-meta-hide-on-mobile a::text")
+    item_loader.add_css("content", "div.entry")
+    
+    article_item = item_loader.load_item()
+    
+    # 传递到pipelines.py
+    yield article_item
+```
+但是这样的拿到的数据，会有两个问题，第一个问题是我们拿到的数据是一个数组，第二个问题是我们拿到的数据，没有做任何处理。
+为了解决这个问题，我们可以在items里面进行处理。
+
+在 `items.py` 文件里面，我们item有一个方法Field(), 这个方法接受两个非常重要的参数：          
+第一个是方法： `input_processor = MapCompose()`
+第二个是：           
+我们在使用 `input_processor = MapCompose()` 的时候，首选需要导入一个这样的包 `from scrapy.loader.processors import MapCompose`。
+然后`input_processor = MapCompose()` 里面可以接受一个lamba表达式，也可以接受一个函数，作为item的一个预处理方法！               
+使用如下：               
+```python
+from scrapy.loader.processors import MapCompose
+import scrapy
+
+def add_jobbole(value):
+    return value + '-le'
+
+
+class JobBoleArticleItem(scrapy.Item):
+    title = scrapy.Field(
+        input_processor=MapCompose(lambda x: x + '-yan', add_jobbole)
+    )  # 只能指定这个类型
+    create_date = scrapy.Field()
+    url = scrapy.Field()
+    url_object_id = scrapy.Field()
+    font_image_url = scrapy.Field()
+    font_image_path = scrapy.Field()  # 本地存储路径
+    praise_nums = scrapy.Field()
+    comment_num = scrapy.Field()
+    fav_nums = scrapy.Field()
+    tags = scrapy.Field()
+    content = scrapy.Field()
 ```
 
 

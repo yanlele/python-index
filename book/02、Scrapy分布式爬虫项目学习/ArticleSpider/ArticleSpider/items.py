@@ -6,6 +6,7 @@
 # https://doc.scrapy.org/en/latest/topics/items.html
 
 import scrapy
+from scrapy.loader.processors import MapCompose
 
 
 class ArticlespiderItem(scrapy.Item):
@@ -14,8 +15,14 @@ class ArticlespiderItem(scrapy.Item):
     pass
 
 
+def add_jobbole(value):
+    return value + '-le'
+
+
 class JobBoleArticleItem(scrapy.Item):
-    title = scrapy.Field()  # 只能指定这个类型
+    title = scrapy.Field(
+        input_processor=MapCompose(lambda x: x + '-yan', add_jobbole)
+    )  # 只能指定这个类型
     create_date = scrapy.Field()
     url = scrapy.Field()
     url_object_id = scrapy.Field()
