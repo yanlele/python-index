@@ -72,11 +72,12 @@ ITEM_PIPELINES = {
     # 'ArticleSpider.pipelines.JsonExporterPipeline': 2,
     'scrapy.pipelines.images.ImagesPipeline': 1,
     'ArticleSpider.pipelines.ArticleImagePipeline': 2,
-    'ArticleSpider.pipelines.MysqlPipeline': 3
+    # 'ArticleSpider.pipelines.MysqlPipeline': 3
+    'ArticleSpider.pipelines.MysqlTwistedPipeline': 3
 }
-IMAGES_URLS_FIELD = "font_image_url"        # 需要保存图片的字段，需要注意的是，要接受的是一个数组
-project_dir = os.path.abspath(os.path.dirname(__file__))        # 获取当前文件的路径的父级路径
-IMAGES_STORE = os.path.join(project_dir, 'images')              # 获取保存图片的路径
+IMAGES_URLS_FIELD = "font_image_url"  # 需要保存图片的字段，需要注意的是，要接受的是一个数组
+project_dir = os.path.abspath(os.path.dirname(__file__))  # 获取当前文件的路径的父级路径
+IMAGES_STORE = os.path.join(project_dir, 'images')  # 获取保存图片的路径
 # IMAGES_MIN_HEIGHT = 100     # 下载的图片最小的高度
 # IMAGES_MIN_WIDTH = 100      # 下载的图片最小宽度
 
@@ -105,3 +106,9 @@ IMAGES_STORE = os.path.join(project_dir, 'images')              # 获取保存�
 USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0"
 
 RANDOM_UA_TYPE = "random"
+
+MYSQL_HOST = '127.0.0.1'
+MYSQL_DBNAME = 'jobbole_article'
+MYSQL_USER = 'root'
+MYSQL_PASSWORD = '53693750'
+

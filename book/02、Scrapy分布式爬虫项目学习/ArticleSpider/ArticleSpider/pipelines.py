@@ -8,8 +8,10 @@
 import codecs
 import json
 import MySQLdb
+import MySQLdb.cursors
 from scrapy.pipelines.images import ImagesPipeline
 from scrapy.exporters import JsonItemExporter
+from twisted.enterprise import adbapi
 
 
 class ArticlespiderPipeline(object):
@@ -33,7 +35,8 @@ class JsonWithEncodingPipeline(object):
 
 class MysqlPipeline(object):
     def __init__(self):
-        self.conn = MySQLdb.connect('127.0.0.1', 'root', '53693750', '0001_article_spider', charset="utf8", use_unicode=True)
+        self.conn = MySQLdb.connect('127.0.0.1', 'root', '53693750', '0001_article_spider', charset="utf8",
+                                    use_unicode=True)
         self.cursor = self.conn.cursor()
 
     def process_item(self, item, spider):
@@ -46,6 +49,45 @@ class MysqlPipeline(object):
                                          item["font_image_url"], item["font_image_path"], item["praise_nums"],
                                          item["comment_num"], item["fav_nums"], item["tags"], item["content"]))
         self.conn.commit()
+
+
+class MysqlTwistedPipeline(object):
+    def __init__(self, dbpool):
+        self.dbpool = dbpool
+
+    @classmethod
+    def from_settings(cls, settings):
+        dbparms = dict(
+            host=settings["MYSQL_HOST"],
+            db=settings["MYSQL_DBNAME"],
+            user=settings["MYSQL_USER"],
+            passwd=settings["MYSQL_PASSWORD"],
+            charset='utf8',
+            cursorclass=MySQLdb.cursors.DictCursor,
+            use_unicode=True
+        )
+        dbpool = adbapi.ConnectionPool("MySQLdb", **dbparms)
+        return cls(dbpool)
+
+    def process_item(self, item, spider):
+        # 使用twisted, 将mysql插入变为异步操作
+        # jobbole_article
+        query = self.dbpool.runInteraction(self.do_insert, item)
+        query.addErrorback(self.handle_error, item, spider)     # 处理异常
+
+    def handle_error(self, failure, item, spider):
+        # 处理异步插入数据异常
+        print(failure)
+
+    def do_insert(self, cursor, item):
+        # 这里实现具体的插入逻辑
+        insert_sql = """
+                    insert into jobbole_article(title, create_date, url, url_object_id, font_image_url, font_image_path, praise_nums, comment_num, fav_nums, tags, content)
+                    values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+        cursor.execute(insert_sql, (item["title"], item["create_date"], item["url"], item["url_object_id"],
+                                    item["font_image_url"], item["font_image_path"], item["praise_nums"],
+                                    item["comment_num"], item["fav_nums"], item["tags"], item["content"]))
 
 
 class JsonExporterPipeline(object):

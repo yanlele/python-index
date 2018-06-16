@@ -532,7 +532,75 @@ ITEM_PIPELINES = {
     'ArticleSpider.pipelines.MysqlPipeline': 3
 }
 ```
-然后执行sql， 就可以得到我们期望的数据了！
+然后执行测试文件sql， 就可以得到我们期望的数据了！                 
+
+
+另外一种插入mysql数据库的方式： 异步插入数据（这种方式的好处是非阻塞性）                 
+可以在我们的pipeline中定义我们存储mysql的实现类了，是通过Twisted实现的：              
+第一步，我们可以将我们的mysql连接数据写到我们的settings里面去的。                 
+```python
+MYSQL_HOST = '127.0.0.1'
+MYSQL_DBNAME = 'jobbole_article'
+MYSQL_USER = 'root'
+MYSQL_PASSWORD = '53693750'
+```   
+
+第二步，在pipelines中定义一个处理的处理异步插入的类              
+```python
+import MySQLdb
+import MySQLdb.cursors
+from twisted.enterprise import adbapi
+class MysqlTwistedPipeline(object):
+    def __init__(self, dbpool):
+        self.dbpool = dbpool
+
+    @classmethod
+    def from_settings(cls, settings):
+        dbparms = dict(
+            host=settings["MYSQL_HOST"],
+            db=settings["MYSQL_DBNAME"],
+            user=settings["MYSQL_USER"],
+            passwd=settings["MYSQL_PASSWORD"],
+            charset='utf8',
+            cursorclass=MySQLdb.cursors.DictCursor,
+            use_unicode=True
+        )
+        dbpool = adbapi.ConnectionPool("MySQLdb", **dbparms)
+        return cls(dbpool)
+
+    def process_item(self, item, spider):
+        # 使用twisted, 将mysql插入变为异步操作
+        # jobbole_article
+        query = self.dbpool.runInteraction(self.do_insert, item)
+        query.addErrorback(self.handle_error, item, spider)     # 处理异常
+
+    def handle_error(self, failure, item, spider):
+        # 处理异步插入数据异常
+        print(failure)
+
+    def do_insert(self, cursor, item):
+        # 这里实现具体的插入逻辑
+        insert_sql = """
+                    insert into jobbole_article(title, create_date, url, url_object_id, font_image_url, font_image_path, praise_nums, comment_num, fav_nums, tags, content)
+                    values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+        cursor.execute(insert_sql, (item["title"], item["create_date"], item["url"], item["url_object_id"],
+                                    item["font_image_url"], item["font_image_path"], item["praise_nums"],
+                                    item["comment_num"], item["fav_nums"], item["tags"], item["content"]))
+```
+
+做完这些之后，最后在注入到settings中去：            
+```python
+ITEM_PIPELINES = {
+    # 'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
+    # 'ArticleSpider.pipelines.JsonWithEncodingPipeline': 2,
+    # 'ArticleSpider.pipelines.JsonExporterPipeline': 2,
+    'scrapy.pipelines.images.ImagesPipeline': 1,
+    'ArticleSpider.pipelines.ArticleImagePipeline': 2,
+    # 'ArticleSpider.pipelines.MysqlPipeline': 3
+    'ArticleSpider.pipelines.MysqlTwistedPipeline': 3
+}
+```
 
 
 
