@@ -1,4 +1,4 @@
-"""制作世界地图"""
+"""在世界地图上呈现数字数据"""
 import pygal
 
 wm = pygal.maps.world.World()
@@ -8,4 +8,4 @@ wm.add('North America', {'ca': 34126000, 'us': 309349000, 'mx': 113423000})
 wm.add('Central America', ['bz', 'cr', 'gt', 'hn', 'ni', 'pa', 'sv'])
 wm.add('South America', ['ar', 'bo', 'br', 'cl', 'co', 'ec', 'gf','gy', 'pe', 'py', 'sr', 'uy', 've'])
 
-wm.render_to_file('americas.svg')
+wm.render_to_file('na_populations.svg')
