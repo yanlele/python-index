@@ -641,8 +641,8 @@ from scrapy.loader import ItemLoader
 为了解决这个问题，我们可以在items里面进行处理。
 
 在 `items.py` 文件里面，我们item有一个方法Field(), 这个方法接受两个非常重要的参数：          
-第一个是方法： `input_processor = MapCompose()`
-第二个是：           
+第一个是方法： `input_processor = MapCompose()`                
+第二个是： `output_processor=TakeFirst()`           
 我们在使用 `input_processor = MapCompose()` 的时候，首选需要导入一个这样的包 `from scrapy.loader.processors import MapCompose`。
 然后`input_processor = MapCompose()` 里面可以接受一个lamba表达式，也可以接受一个函数，作为item的一个预处理方法！               
 使用如下：               
@@ -669,6 +669,121 @@ class JobBoleArticleItem(scrapy.Item):
     tags = scrapy.Field()
     content = scrapy.Field()
 ```
+
+对于每一个字段，我们比如都想去取第一个参数，这个时候，就用用到Field的第二个参数了 `output_processor=TakeFirst()` ：            
+```python
+import scrapy
+import datetime
+from scrapy.loader.processors import MapCompose, TakeFirst
+class JobBoleArticleItem(scrapy.Item):
+    title = scrapy.Field(
+        input_processor=MapCompose(lambda x: x + '-yan', add_jobbole),
+        output_processor=TakeFirst()
+    )  # 只能指定这个类型
+    create_date = scrapy.Field(
+        input_processor=MapCompose(date_convert),
+        output_processor=TakeFirst()
+    )
+    url = scrapy.Field()
+    url_object_id = scrapy.Field()
+    font_image_url = scrapy.Field()
+    font_image_path = scrapy.Field()  # 本地存储路径
+    praise_nums = scrapy.Field()
+    comment_num = scrapy.Field()
+    fav_nums = scrapy.Field()
+    tags = scrapy.Field()
+    content = scrapy.Field()
+```
+但是我们如果我们所有字段都是希望去取第一个参数，每个字段都要加上这样的规则，会显得非常的麻烦。我们可以定义一个自己的loader来批量处理这个问题：              
+```python
+class ArticleItemLoader(ItemLoader):
+    default_output_processor = TakeFirst()
+```
+这个时候我们实例化的时候，就不能用 `ItemLoader` 了，要用我们定义好的 `ArticleItemLoader`           
+```python
+font_image_url = response.meta.get("front_image_url", "")
+item_loader = ArticleItemLoader(item=JobBoleArticleItem(), response=response)
+item_loader.add_css("title", ".entry-header h1::text")
+item_loader.add_value("url", response.url)
+item_loader.add_value("url_object_id", get_md5(response.url))
+item_loader.add_css("create_date", "p.entry-meta-hide-on-mobile::text")
+item_loader.add_value("font_image_url", [font_image_url])
+item_loader.add_css("praise_nums", ".vote-post-up h10::text")
+item_loader.add_css("comment_num", "a[href='#article-comment'] span::text")
+item_loader.add_css("fav_nums", ".bookmark-btn::text")
+item_loader.add_css("tags", "p.entry-meta-hide-on-mobile a::text")
+item_loader.add_css("content", "div.entry")
+
+article_item = item_loader.load_item()
+
+# 传递到pipelines.py
+yield article_item
+```
+
+items定义内容如下：                
+```python
+def get_nums(value):
+    match_re = re.match(".*?(\d+).*", value)
+    if match_re:
+        nums = int(match_re.group(1))
+    else:
+        nums = 0
+    return nums
+
+
+def date_convert(value):
+    try:
+        create_date = datetime.datetime.strptime(value, "%Y/%m/%d").date()
+    except Exception as e:
+        create_date = datetime.datetime.now().date()
+    return create_date
+
+
+def remove_comment_tags(value):
+    #去掉tag中提取的评论
+    if "评论" in value:
+        return ""
+    else:
+        return value
+
+
+def return_value(value):
+    return value
+
+
+class ArticleItemLoader(ItemLoader):
+    default_output_processor = TakeFirst()
+
+
+class JobBoleArticleItem(scrapy.Item):
+    title = scrapy.Field()  # 只能指定这个类型
+    create_date = scrapy.Field(
+        input_processor=MapCompose(date_convert)
+    )
+    url = scrapy.Field()
+    url_object_id = scrapy.Field()
+    font_image_url = scrapy.Field(
+        output_processor=MapCompose(return_value)   # 覆盖掉我们默认的 default_output_processor
+    )
+    font_image_path = scrapy.Field()  # 本地存储路径
+    praise_nums = scrapy.Field(
+        imput_process=MapCompose(get_nums)
+    )
+    comment_num = scrapy.Field(
+        imput_process=MapCompose(get_nums)
+    )
+    fav_nums = scrapy.Field(
+        imput_process=MapCompose(get_nums)
+    )
+    tags = scrapy.Field(
+        input_processor=MapCompose(remove_comment_tags),
+        output_processor=Join(",")
+    )
+    content = scrapy.Field()
+```
+
+
+
 
 
 

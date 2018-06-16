@@ -7,7 +7,7 @@ from scrapy.http import Request
 from urllib import parse
 from scrapy.loader import ItemLoader
 
-from ArticleSpider.items import JobBoleArticleItem
+from ArticleSpider.items import JobBoleArticleItem, ArticleItemLoader
 from ArticleSpider.utils.common import get_md5
 
 
@@ -46,64 +46,64 @@ class JobboleSpider(scrapy.Spider):
         :return:
         """
 
-        # 实例化接受对象
-        article_item = JobBoleArticleItem()
-
-        # 获取title的图片(封面图) 这个地方我们可以通过字典的方式来查找，也可以通过get的方式来查找，建议get方式，这样不会出现异常
-        font_image_url = response.meta.get("front_image_url", "")
-
-        # 获取文章的title
-        title = response.xpath('//div[@class="entry-header"]/h1/text()').extract_first()
-
-        # 获取文章的创建时间
-        create_date = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/text()').extract()[0].strip().replace('·', '').strip()
-
-        # 获取文章的点赞数
-        praise_nums = int(response.xpath("//span[contains(@class, 'vote-post-up')]/h10/text()").extract()[0])
-
-        # 收藏数量
-        fav_nums = response.xpath("//span[contains(@class, 'bookmark-btn')]/text()").extract()[0]
-        match_re = re.match('.*?(\d+).*', fav_nums)
-        if match_re:
-            fav_nums = int(match_re.group(1))
-        else:
-            fav_nums = 0
-
-        # 评论数
-        comment_num = response.xpath("//a[@href='#article-comment']/span/text()").extract()[0]
-        match_re = re.match('.*?(\d+).*', comment_num)
-        if match_re:
-            comment_num = int(match_re.group(1))
-        else:
-            comment_num = 0
-
-        # 获取文章正文 - 这个地方我们可以直接把html字符串提取出来就完了
-        content = response.xpath("//div[@class='entry']").extract()[0]
-
-        # 获取文章关键字
-        tag_list = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/a/text()').extract()
-        tag_list = [element for element in tag_list if not element.strip().endswith("评论")]
-        tags = ','.join(tag_list)
-
-        # 填充article_item
-        article_item["url_object_id"] = get_md5(response.url)
-        article_item["title"] = title
-        article_item["url"] = response.url
-        try:
-            create_date = datetime.datetime.strptime(create_date, "%Y/%m/%d").date()
-        except Exception as e:
-            create_date = datetime.datetime.now().date()
-        article_item["create_date"] = create_date
-        article_item["font_image_url"] = [font_image_url]
-        article_item["praise_nums"] = praise_nums
-        article_item["comment_num"] = comment_num
-        article_item["fav_nums"] = fav_nums
-        article_item["tags"] = tags
-        article_item["content"] = content
+        # # 实例化接受对象
+        # article_item = JobBoleArticleItem()
+        #
+        # # 获取title的图片(封面图) 这个地方我们可以通过字典的方式来查找，也可以通过get的方式来查找，建议get方式，这样不会出现异常
+        # font_image_url = response.meta.get("front_image_url", "")
+        #
+        # # 获取文章的title
+        # title = response.xpath('//div[@class="entry-header"]/h1/text()').extract_first()
+        #
+        # # 获取文章的创建时间
+        # create_date = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/text()').extract()[0].strip().replace('·', '').strip()
+        #
+        # # 获取文章的点赞数
+        # praise_nums = int(response.xpath("//span[contains(@class, 'vote-post-up')]/h10/text()").extract()[0])
+        #
+        # # 收藏数量
+        # fav_nums = response.xpath("//span[contains(@class, 'bookmark-btn')]/text()").extract()[0]
+        # match_re = re.match('.*?(\d+).*', fav_nums)
+        # if match_re:
+        #     fav_nums = int(match_re.group(1))
+        # else:
+        #     fav_nums = 0
+        #
+        # # 评论数
+        # comment_num = response.xpath("//a[@href='#article-comment']/span/text()").extract()[0]
+        # match_re = re.match('.*?(\d+).*', comment_num)
+        # if match_re:
+        #     comment_num = int(match_re.group(1))
+        # else:
+        #     comment_num = 0
+        #
+        # # 获取文章正文 - 这个地方我们可以直接把html字符串提取出来就完了
+        # content = response.xpath("//div[@class='entry']").extract()[0]
+        #
+        # # 获取文章关键字
+        # tag_list = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/a/text()').extract()
+        # tag_list = [element for element in tag_list if not element.strip().endswith("评论")]
+        # tags = ','.join(tag_list)
+        #
+        # # 填充article_item
+        # article_item["url_object_id"] = get_md5(response.url)
+        # article_item["title"] = title
+        # article_item["url"] = response.url
+        # try:
+        #     create_date = datetime.datetime.strptime(create_date, "%Y/%m/%d").date()
+        # except Exception as e:
+        #     create_date = datetime.datetime.now().date()
+        # article_item["create_date"] = create_date
+        # article_item["font_image_url"] = [font_image_url]
+        # article_item["praise_nums"] = praise_nums
+        # article_item["comment_num"] = comment_num
+        # article_item["fav_nums"] = fav_nums
+        # article_item["tags"] = tags
+        # article_item["content"] = content
 
         # 通过item_loader来加载loader
-
-        item_loader = ItemLoader(item=JobBoleArticleItem(), response=response)
+        font_image_url = response.meta.get("front_image_url", "")
+        item_loader = ArticleItemLoader(item=JobBoleArticleItem(), response=response)
         item_loader.add_css("title", ".entry-header h1::text")
         item_loader.add_value("url", response.url)
         item_loader.add_value("url_object_id", get_md5(response.url))
