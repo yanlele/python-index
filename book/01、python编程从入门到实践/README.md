@@ -1633,7 +1633,9 @@ requests 包让 Python 程序能够轻松地向网站请求信，息以及检查
     - [概述最受欢迎的仓库](./项目2、数据可视化/17章、使用API/python_repos04.py)
 
 - 使用 Pygal 可视化仓库            
-    - [进行可视化，呈现 GitHub 上 Python 项目的受欢迎程度]()
+    - [进行可视化，呈现 GitHub 上 Python 项目的受欢迎程度](./项目2、数据可视化/17章、使用API/python_repos05.py)
+    - [改进 Pygal 图表](./项目2、数据可视化/17章、使用API/python_repos06.py)
+    - [添加自定义工具提示r](./项目2、数据可视化/17章、使用API/bar_descriptions.py)
 
 
 本章节补充内容:             
