@@ -1609,6 +1609,31 @@ else:
     `from pygal.style import LightColorizedStyle`
     
     
+## <div id='class17'>第 17  章　使用 API</div>               
+本章的可视化将基于来自 GitHub 的信息，这是一个让程序员能够协作开发项目的网站。我们将使用 GitHub 的 API 来请求有关该网站中 Python 项目的信息，然后使用 Pygal 生成交互式
+可视化，以呈现这些项目的受欢迎程度。
+
+GitHub 的 API 让你能够通过 API 调用来请求各种信息。要知道 API 调用是什么样的，请在浏览器的地址栏中输入如下地址并按回车键：                
+`https://api.github.com/search/repositories?q=language:python&sort=stars`               
+
+这个调用返回 GitHub 当前托管了多少个 Python 项目，还有有关最受欢迎的 Python 仓库的信息。下面来仔细研究这个调用。第一部分（ https://api.github.com/ ）将请求发送
+到 GitHub 网站中响应 API 调用的部分；接下来的一部分（ search/repositories ）让 API 搜索 GitHub 上的所有仓库。
+
+repositories 后面的问号指出我们要传递一个实参。 q 表示查询，而等号让我们能够开始指定查询（ q= ）。通过使用 language:python ，我们指出只想获取主要语言为
+Python 的仓库的信息。最后一部分（ &sort=stars ）指定将项目按其获得的星级进行排序。                 
+
+**安装 requests**                     
+requests 包让 Python 程序能够轻松地向网站请求信，息以及检查返回的响应。要安装 requests ，请执行类似于下面的命令：                      
+`pip install --user requests`               
+
+- 使用 Web API                
+    - [处理 API 响应](./项目2、数据可视化/17章、使用API/python_repos.py)
+    - [处理响应字典](./项目2、数据可视化/17章、使用API/python_repos02.py)
+    - [提取 repo_dict 中与一些键相关联的值](./项目2、数据可视化/17章、使用API/python_repos03.py)
+    - [概述最受欢迎的仓库](./项目2、数据可视化/17章、使用API/python_repos04.py)
+
+- 使用 Pygal 可视化仓库            
+    - [进行可视化，呈现 GitHub 上 Python 项目的受欢迎程度]()
 
 
 本章节补充内容:             
