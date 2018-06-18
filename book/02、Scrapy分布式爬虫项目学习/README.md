@@ -975,6 +975,9 @@ is_login()
                 yield scrapy.Request(url, dont_filter=True, headers=self.headers)
 ```
 
+### <div id='class05-03'>5.3、网站内容的爬取</div>                  
+首先我们进入shell测试的时候，因为这个网站需要user_agent才能访问，所以我们测试命令行的时候，也是需要加入user_agent，我们可以这样做：              
+`scrapy shell -s USER_AGENT="Mozilla/5.0 (Windows NT 6.1; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0" https://www.zhizhu.com`      
 
 
 
