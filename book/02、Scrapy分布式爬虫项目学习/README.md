@@ -5,12 +5,14 @@
     - [1、正则表达式专题](#class03-01)
     - [2、2、深度优先](#class03-02)
 - [第四章、scrapy爬取技术文章网站](#class04)
-    - [1、04章、scrapy爬取致命技术文章网站](#class04-01)
+    - [1、安装scrapy](#class04-01)
     - [2、爬虫项目的开始：抓取一篇文章](#class04-02)
     - [3、抓取多篇文章](#class04-03)
     - [4、文章存储问题](#class04-04)
     - [5、scrapy:item loader机制](#class04-05)
 - [第五章、scrapy爬取问答网站](#class05)
+    - [1、requests模拟登陆](#class05-01)
+    - [2、scrapy模拟登陆](#class05-02)
 
 
 ## <div id='class03'>第三章、爬虫基础知识</div>
@@ -845,7 +847,8 @@ def get_xsrf():
 
 
 def get_index():
-    """请求首页， 把本地cookies写入request中
+    """
+        请求首页， 把本地cookies写入request中
         这个时候回写入一个html文件，我们可以通过本地生成的html页面登陆页面
     """
     response = session.get("https://www.zhihu.com", headers=header)
@@ -908,6 +911,71 @@ is_login()
 
 # get_captcha()
 ```
+运行这个python文件就可以了，实现模拟登陆；                
+
+
+### <div id='05-02'>5.2、scrapy模拟登陆</div>
+直接塞spiders里面定义爬取规则的文件下面做处理就可以了
+```python
+    def start_requests(self):
+        return [scrapy.Request('https://www.zhihu.com/#signin', headers=self.headers, callback=self.login)]
+
+    def login(self, response):
+        response_text = response.text
+        match_obj = re.match('.*name="_xsrf" value="(.*?)"', response_text, re.DOTALL)
+        xsrf = ''
+        if match_obj:
+            xsrf = (match_obj.group(1))
+
+        if xsrf:
+            post_url = "https://www.zhihu.com/login/phone_num"
+            post_data = {
+                "_xsrf": xsrf,
+                "phone_num": "",
+                "password": "",
+                "captcha": ""
+            }
+
+            import time
+            t = str(int(time.time() * 1000))
+            captcha_url = "https://www.zhihu.com/captcha.gif?r={0}&type=login".format(t)
+            yield scrapy.Request(captcha_url, headers=self.headers, meta={"post_data": post_data},
+                                 callback=self.login_after_captcha)
+
+    def login_after_captcha(self, response):
+        with open("captcha.jpg", "wb") as f:
+            f.write(response.body)
+            f.close()
+
+        from PIL import Image
+        try:
+            im = Image.open('captcha.jpg')
+            im.show()
+            im.close()
+        except:
+            pass
+
+        captcha = input("输入验证码\n>")
+
+        post_data = response.meta.get("post_data", {})
+        post_url = "https://www.zhihu.com/login/phone_num"
+        post_data["captcha"] = captcha
+        return [scrapy.FormRequest(
+            url=post_url,
+            formdata=post_data,
+            headers=self.headers,
+            callback=self.check_login
+        )]
+
+    def check_login(self, response):
+        # 验证服务器的返回数据判断是否成功
+        text_json = json.loads(response.text)
+        if "msg" in text_json and text_json["msg"] == "登录成功":
+            for url in self.start_urls:
+                yield scrapy.Request(url, dont_filter=True, headers=self.headers)
+```
+
+
 
 
 
