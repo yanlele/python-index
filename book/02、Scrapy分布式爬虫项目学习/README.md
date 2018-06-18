@@ -792,9 +792,9 @@ class JobBoleArticleItem(scrapy.Item):
 ```
 
 
-## <div id='05'>第五章、scrapy爬取问答网站</div>
+## <div id='class05'>第五章、scrapy爬取问答网站</div>
 
-### <div id='05-01'>5.1、requests模拟登陆</div>                  
+### <div id='class05-01'>5.1、requests模拟登陆</div>                  
 首先我们需要用到的是requests这个库，我们在这里查看文档手册 [快速上手 — Requests 2.18.1 文档](http://docs.python-requests.org/zh_CN/latest/user/quickstart.html)                
 关于这个库的安装： `pip install requests` 直接这样就可以了              
 然后在utils这个文件目录下面，创建文件login_requests.py，通过requests来完成模拟登陆              
@@ -914,7 +914,7 @@ is_login()
 运行这个python文件就可以了，实现模拟登陆；                
 
 
-### <div id='05-02'>5.2、scrapy模拟登陆</div>
+### <div id='class05-02'>5.2、scrapy模拟登陆</div>
 直接塞spiders里面定义爬取规则的文件下面做处理就可以了
 ```python
     def start_requests(self):
@@ -974,6 +974,8 @@ is_login()
             for url in self.start_urls:
                 yield scrapy.Request(url, dont_filter=True, headers=self.headers)
 ```
+
+
 
 
 
