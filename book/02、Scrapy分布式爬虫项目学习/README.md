@@ -217,7 +217,8 @@ re3_select = response.xpath('//div[@class="entry-header"]/h1')
 
 我们可以这样，拿到我们所需要的文本值： `response.xpath('//div[@class="entry-header"]/h1/text()').extract()[0]`             
 
-其实我们这样调试时很慢的，我们可以利用控制台命令行进行调试：  `scrapy shell http://blog.jobbole.com/113665/` 这样我们就可以在脚本中调试了               
+其实我们这样调试时很慢的，我们可以利用控制台命令行进行调试：  `scrapy shell http://blog.jobbole.com/113665/` 这样我们就可以在脚本中调试了                              
+调试的目录为：  `D:\yanle\web\python\python-index\book\02、Scrapy分布式爬虫项目学习>`
 
 通过xpath提取文章完成， 具体代码如下：          
 ```python
@@ -978,23 +979,5 @@ is_login()
 ### <div id='class05-03'>5.3、网站内容的爬取</div>                  
 首先我们进入shell测试的时候，因为这个网站需要user_agent才能访问，所以我们测试命令行的时候，也是需要加入user_agent，我们可以这样做：              
 `scrapy shell -s USER_AGENT="Mozilla/5.0 (Windows NT 6.1; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0" https://www.zhizhu.com`      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
