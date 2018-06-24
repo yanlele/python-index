@@ -14,6 +14,9 @@
     - [1、requests模拟登陆](#class05-01)
     - [2、scrapy模拟登陆](#class05-02)
     - [3、内容的爬取](#class05-03)
+- [第六章、CrawlSpider整站爬取](#class06)
+    - [1、数据表的设计](#class06-01)
+    - [2、具体爬虫代码的实现](#class06-02)
 
 
 ## <div id='class03'>第三章、爬虫基础知识</div>
@@ -1021,6 +1024,16 @@ CREATE TABLE `lagou_job` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 
+### <div id='class06-02'>6.2、具体爬虫代码的实现</div>
+我们可以通过 `scrapy genspider --list` 来查看genspider给我们的磨人模板有哪些：           
+```
+Available templates:
+  basic
+  crawl
+  csvfeed
+  xmlfeed
+```         
+如果我们不指明，默认给我们生成的是basic
 
 
 
