@@ -979,5 +979,13 @@ is_login()
 ### <div id='class05-03'>5.3、网站内容的爬取</div>                  
 首先我们进入shell测试的时候，因为这个网站需要user_agent才能访问，所以我们测试命令行的时候，也是需要加入user_agent，我们可以这样做：              
 `scrapy shell -s USER_AGENT="Mozilla/5.0 (Windows NT 6.1; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0" https://www.zhizhu.com`      
+调试的目录为：  `D:\yanle\web\python\python-index\book\02、Scrapy分布式爬虫项目学习>`                    
+
+这个时候如果能打开网页，我们接下来可以吧网页内容写入到文件里面，然后通过分析文件来确立这个是否是新版本的网页知乎：               
+```python
+with open("e:/zhihu.html", "wb") as f:
+    f.write(response.text.encode("utf-8"))
+```
+
 
 
