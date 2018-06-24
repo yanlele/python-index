@@ -13,6 +13,7 @@
 - [第五章、scrapy爬取问答网站](#class05)
     - [1、requests模拟登陆](#class05-01)
     - [2、scrapy模拟登陆](#class05-02)
+    - [3、内容的爬取](#class05-03)
 
 
 ## <div id='class03'>第三章、爬虫基础知识</div>
@@ -986,6 +987,40 @@ is_login()
 with open("e:/zhihu.html", "wb") as f:
     f.write(response.text.encode("utf-8"))
 ```
+接下来的内容省略掉，因为知乎改版，而且用上面的方式，已经无法爬取知乎内容了。所以弃坑。
+
+
+## <div id='class06'>第六章、CrawlSpider整站爬取</div>
+### <div id='class06-01'>6.1、数据表的设计</div>
+```
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for lagou_job
+-- ----------------------------
+DROP TABLE IF EXISTS `lagou_job`;
+CREATE TABLE `lagou_job` (
+  `url` varchar(300) NOT NULL,
+  `url_object_id` varchar(50) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `salary` varchar(20) DEFAULT NULL,
+  `job_city` varchar(10) DEFAULT NULL,
+  `work_years` varchar(100) DEFAULT NULL,
+  `degree_need` varchar(30) DEFAULT NULL,
+  `job_type` varchar(20) DEFAULT NULL,
+  `publish_time` varchar(20) NOT NULL,
+  `tags` varchar(100) DEFAULT NULL,
+  `job_advantage` varchar(1000) DEFAULT NULL,
+  `job_desc` longtext NOT NULL,
+  `job_addr` varchar(50) DEFAULT NULL,
+  `company_url` varchar(300) DEFAULT NULL,
+  `company_name` varchar(100) DEFAULT NULL,
+  `crawl_time` datetime NOT NULL,
+  `crawl_update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`url_object_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
 
 
 
