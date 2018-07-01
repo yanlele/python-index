@@ -1048,13 +1048,16 @@ from scrapy.spiders import CrawlSpider, Rule
 class LagouSpider(CrawlSpider):
     name = 'lagou'
     allowed_domains = ['www.lagou.com']
-    start_urls = ['http://www.lagou.com/']
+    start_urls = ['https://www.lagou.com/']
 
     rules = (
-        Rule(LinkExtractor(allow=r'Items/'), callback='parse_item', follow=True),
+        Rule(LinkExtractor(allow=("zhaopin/.*",)), follow=True),            # 这里编写我们想爬取的url连接模式
+        Rule(LinkExtractor(allow=("gongsi/j\d+.html",)), follow=True),
+        Rule(LinkExtractor(allow=r'jobs/\d+.html'), callback='parse_job', follow=True),
     )
 
-    def parse_item(self, response):
+    def parse_job(self, response):
+        # 解析拉勾网的所有职位
         i = {}
         #i['domain_id'] = response.xpath('//input[@id="sid"]/@value').extract()
         #i['name'] = response.xpath('//div[@id="name"]').extract()
@@ -1071,6 +1074,11 @@ BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR, 'ArticleSpider'))
 ```
 这样的操作就可以把文件加入到python Path中去了，就不会出现import找不到内容的情况了
+
+
+- **定义items**                   
+
+
 
 
 
