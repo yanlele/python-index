@@ -1025,6 +1025,7 @@ CREATE TABLE `lagou_job` (
 ```
 
 ### <div id='class06-02'>6.2、具体爬虫代码的实现</div>
+- **实例化crawl 模板**
 我们可以通过 `scrapy genspider --list` 来查看genspider给我们的磨人模板有哪些：           
 ```
 Available templates:
@@ -1033,7 +1034,45 @@ Available templates:
   csvfeed
   xmlfeed
 ```         
-如果我们不指明，默认给我们生成的是basic, 如果我们需要的是一个crawl的模板，我们这一这样做： `scrapy genspider -t crawl lagou www.lagou.com`
+如果我们不指明，默认给我们生成的是basic, 如果我们需要的是一个crawl的模板，我们这一这样做： `scrapy genspider -t crawl lagou www.lagou.com`                 
+这里需要注意的是我们实例化模板的路径： `D:\yanle\web\python\python-index\book\02、Scrapy分布式爬虫项目学习\ArticleSpider`                
+
+执行完上面的命令行之后，我们就可以得到一个空的模板文件：                
+```python
+# -*- coding: utf-8 -*-
+import scrapy
+from scrapy.linkextractors import LinkExtractor
+from scrapy.spiders import CrawlSpider, Rule
+
+
+class LagouSpider(CrawlSpider):
+    name = 'lagou'
+    allowed_domains = ['www.lagou.com']
+    start_urls = ['http://www.lagou.com/']
+
+    rules = (
+        Rule(LinkExtractor(allow=r'Items/'), callback='parse_item', follow=True),
+    )
+
+    def parse_item(self, response):
+        i = {}
+        #i['domain_id'] = response.xpath('//input[@id="sid"]/@value').extract()
+        #i['name'] = response.xpath('//div[@id="name"]').extract()
+        #i['description'] = response.xpath('//div[@id="description"]').extract()
+        return i
+```
+
+- **如果出现导包的问题，可以用这种方法来解决**
+我们一settings.py文件作为例子                    
+```python
+import os
+import sys
+BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.join(BASE_DIR, 'ArticleSpider'))
+```
+这样的操作就可以把文件加入到python Path中去了，就不会出现import找不到内容的情况了
+
+
 
 
 
