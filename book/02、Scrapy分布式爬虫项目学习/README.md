@@ -1127,8 +1127,54 @@ class LagouJobItem(scrapy.Item):
 
 spider里面的具体实现逻辑：            
 ```python
+    def parse_job(self, response):
+        #解析拉勾网的职位
+        item_loader = LagouJobItemLoader(item=LagouJobItem(), response=response)
+        item_loader.add_css("title", ".job-name::attr(title)")
+        item_loader.add_value("url", response.url)
+        item_loader.add_value("url_object_id", get_md5(response.url))
+        item_loader.add_css("salary", ".job_request .salary::text")
+        item_loader.add_xpath("job_city", "//*[@class='job_request']/p/span[2]/text()")
+        item_loader.add_xpath("work_years", "//*[@class='job_request']/p/span[3]/text()")
+        item_loader.add_xpath("degree_need", "//*[@class='job_request']/p/span[4]/text()")
+        item_loader.add_xpath("job_type", "//*[@class='job_request']/p/span[5]/text()")
 
+        item_loader.add_css("tags", '.position-label li::text')
+        item_loader.add_css("publish_time", ".publish_time::text")
+        item_loader.add_css("job_advantage", ".job-advantage p::text")
+        item_loader.add_css("job_desc", ".job_bt div")
+        item_loader.add_css("job_addr", ".work_addr")
+        item_loader.add_css("company_name", "#job_company dt a img::attr(alt)")
+        item_loader.add_css("company_url", "#job_company dt a::attr(href)")
+        item_loader.add_value("crawl_time", datetime.now())
+
+        job_item = item_loader.load_item()
+
+        return job_item
 ```
+
+
+- **插入数据库**
+数据库的设计： 略                       
+```python
+    def get_insert_sql(self):
+        insert_sql = """
+            insert into lagou_job(title, url, url_object_id, salary, job_city, work_years, degree_need,
+            job_type, publish_time, job_advantage, job_desc, job_addr, company_name, company_url,
+            tags, crawl_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE salary=VALUES(salary), job_desc=VALUES(job_desc)
+        """
+        params = (
+            self["title"], self["url"], self["url_object_id"], self["salary"], self["job_city"],
+            self["work_years"], self["degree_need"], self["job_type"],
+            self["publish_time"], self["job_advantage"], self["job_desc"],
+            self["job_addr"], self["company_name"], self["company_url"],
+            self["job_addr"], self["crawl_time"].strftime(SQL_DATETIME_FORMAT),
+        )
+
+        return insert_sql, params
+```
+其余的入库操作和第一个项目是一样的， 可以参见就可以了
 
 
 
