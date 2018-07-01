@@ -1033,7 +1033,7 @@ Available templates:
   csvfeed
   xmlfeed
 ```         
-如果我们不指明，默认给我们生成的是basic
+如果我们不指明，默认给我们生成的是basic, 如果我们需要的是一个crawl的模板，我们这一这样做： `scrapy genspider -t crawl lagou www.lagou.com`
 
 
 
