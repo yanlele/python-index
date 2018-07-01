@@ -173,6 +173,11 @@ class ZhihuAnswerItem(scrapy.Item):
         return insert_sql, params
 
 
+class LagouJobItemLoader(ItemLoader):
+    #自定义itemloader
+    default_output_processor = TakeFirst()
+
+
 class LagouJobItem(scrapy.Item):
     # 拉勾网职位信息
     title = scrapy.Field()

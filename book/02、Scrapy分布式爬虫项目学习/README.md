@@ -1077,7 +1077,58 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'ArticleSpider'))
 
 
 - **定义items**                   
+```python
+class LagouJobItem(scrapy.Item):
+    # 拉勾网职位信息
+    title = scrapy.Field()
+    url = scrapy.Field()
+    url_object_id = scrapy.Field()
+    salary = scrapy.Field()
+    job_city = scrapy.Field(
+        input_processor=MapCompose(remove_splash),
+    )
+    work_years = scrapy.Field(
+        input_processor=MapCompose(remove_splash),
+    )
+    degree_need = scrapy.Field(
+        input_processor=MapCompose(remove_splash),
+    )
+    job_type = scrapy.Field()
+    publish_time = scrapy.Field()
+    job_advantage = scrapy.Field()
+    job_desc = scrapy.Field()
+    job_addr = scrapy.Field(
+        input_processor=MapCompose(remove_tags, handle_jobaddr),
+    )
+    company_name = scrapy.Field()
+    company_url = scrapy.Field()
+    tags = scrapy.Field(
+        input_processor=Join(",")
+    )
+    crawl_time = scrapy.Field()
 
+    def get_insert_sql(self):
+        insert_sql = """
+            insert into lagou_job(title, url, url_object_id, salary, job_city, work_years, degree_need,
+            job_type, publish_time, job_advantage, job_desc, job_addr, company_name, company_url,
+            tags, crawl_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE salary=VALUES(salary), job_desc=VALUES(job_desc)
+        """
+        params = (
+            self["title"], self["url"], self["url_object_id"], self["salary"], self["job_city"],
+            self["work_years"], self["degree_need"], self["job_type"],
+            self["publish_time"], self["job_advantage"], self["job_desc"],
+            self["job_addr"], self["company_name"], self["company_url"],
+            self["job_addr"], self["crawl_time"].strftime(SQL_DATETIME_FORMAT),
+        )
+
+        return insert_sql, params
+```
+
+spider里面的具体实现逻辑：            
+```python
+
+```
 
 
 
