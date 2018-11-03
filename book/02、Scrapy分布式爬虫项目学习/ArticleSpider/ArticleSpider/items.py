@@ -12,7 +12,6 @@ import datetime
 from scrapy.loader.processors import MapCompose, TakeFirst, Join
 from settings import SQL_DATETIME_FORMAT, SQL_DATE_FORMAT
 from w3lib.html import remove_tags
-from utils.common import extract_num
 
 
 class ArticlespiderItem(scrapy.Item):
