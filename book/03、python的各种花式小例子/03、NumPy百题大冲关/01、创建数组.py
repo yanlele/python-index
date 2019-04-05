@@ -7,7 +7,9 @@ print()
 
 # 创建二维数组
 print('创建二维数组')
-print(np.array([(1, 2, 3), (4, 5, 6)]))
+print(np.array([
+    (1, 2, 3),
+    (4, 5, 6)]))
 print()
 
 # 创建全部为0 的二位数组
@@ -65,4 +67,3 @@ print()
 print('根据自定义函数创建数组')
 print(np.fromfunction(lambda i, j: i + j, (3, 3)))
 print()
-
