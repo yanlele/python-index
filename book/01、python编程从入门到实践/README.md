@@ -14,6 +14,10 @@
 - [项目1、外星人入侵](#project01)
 - [项目2、数据可视化](#project02)
     - [第 15  章　生成数据](#class15)
+    
+    
+- 补充
+    - [数组基本操作](https://blog.csdn.net/qq564425/article/details/81429142)
 
 
 ## <div id='class02'>第 2  章　变量和简单数据类型</div>
