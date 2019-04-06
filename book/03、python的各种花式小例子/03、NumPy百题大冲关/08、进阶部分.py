@@ -84,4 +84,10 @@ Z = np.linspace(0, 1, 6, endpoint=False)[1:]
 print(Z)
 print()
 
+# 61. 创建一个长度为10的随机一维数组，并将其按升序排序
+Z = np.random.random(10)
+Z.sort()
+print(Z)
+print()
+
 print()
