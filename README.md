@@ -7,6 +7,12 @@
 - [Scrapy分布式爬虫项目学习](./book/02、Scrapy分布式爬虫项目学习/)
 - [python的各种花式小例子](./book/03、python的各种花式小例子)
 
+## 经典python 项目
+- [各种爬虫:Nyspider](https://github.com/Nyloner/Nyspider)
+
+
+## python 开源模块
+
 ## 18年笔记
 - 五月
     - [01、python项目依赖文件](./18年/05月/01、python项目依赖文件/REAMDE.md)
