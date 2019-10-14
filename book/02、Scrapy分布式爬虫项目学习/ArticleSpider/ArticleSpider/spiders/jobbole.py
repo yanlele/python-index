@@ -31,8 +31,9 @@ class JobboleSpider(scrapy.Spider):
         for post_node in post_nodes:
             image_url = post_node.css("img::attr(src)").extract_first("")
             post_url = post_node.css("::attr(href)").extract_first("")
-            url = parse.urljoin(response.url, post_url)         # 这个会自动帮我们拼接我们想要的url地址： parse.urljoin(base_url, url)
-            yield Request(url=url, callback=self.parse_detail, headers=self.headers, meta={"front_image_url": image_url}, dont_filter=True)
+            url = parse.urljoin(response.url, post_url)  # 这个会自动帮我们拼接我们想要的url地址： parse.urljoin(base_url, url)
+            yield Request(url=url, callback=self.parse_detail, headers=self.headers,
+                          meta={"front_image_url": image_url}, dont_filter=True)
 
         # 提取下一页交给 scrapy 来进行下载
         next_urls = response.css('a.next.page-numbers::attr(href)').extract_first("")
