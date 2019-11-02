@@ -20,15 +20,20 @@ while True:
     resStr = input('1：表示开户，\t2表示存/取钱\t3表示结束交易：')
     if resStr == '1':
         print('开户操作')
-        info = int(input("请输入身份证号："))
+        identity_card = int(input("请输入身份证号："))
         pwd = int(input("请输入交易密码："))
         money = int(input("请输入出事金额："))
 
-        '''
-       卡号，密码，初始金额 
-       {'1000000001':{'pwd':'','money':100}}
-       '''
+        # 生成随机10位数卡号
+        card_number = str(random.randint(1000000000, 9999999999))
 
+        bankCardInfo[card_number] = {
+            "identity_card": identity_card,
+            "pwd": pwd,
+            "money": money,
+        }
+
+        print("你的账户信息: ", {card_number: bankCardInfo[card_number]})
 
     elif resStr == '2':
         print('存/取钱操作')
@@ -36,15 +41,35 @@ while True:
         输入卡号：
         输入密码：密码最多只能输入3次，超过3次见提   示用户"密码错误,请取卡” 结束交易
         '''
+        card_number = str(input("请输入卡号："))
+
+        if card_number in bankCardInfo.keys():
+            print('存在账号')
+        else:
+            print('不存在当前账号')
+            break
+
         count = 0
         condition = 1
-        while True:
-
+        while count < 3:
             pwdRes = input('输入密码：')
+
+            # 获取开户信息
+            current_card_info = bankCardInfo[card_number]
+
             # 密码匹配
-            if condition:
+            if current_card_info.pwd != pwdRes:
+                print("输入密码不正确， 请重新输入")
+                count += 1
+                continue
+            else:
                 break
-            count += 1
+
+        #     取钱环节
+
+
+
+
         '''
         只能输出100元的纸币， 一次取钱数要求最低0元，最高1000元。
         如果用户输入的金额符合上述要求。则打印出用户取的钱数。
