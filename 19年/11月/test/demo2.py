@@ -49,32 +49,51 @@ while True:
             print('不存在当前账号')
             break
 
+        # 获取开户信息
+        current_card_info = bankCardInfo[card_number]
+
         count = 0
         condition = 1
         while count < 3:
-            pwdRes = input('输入密码：')
+            pwdRes = int(input('输入密码：'))
 
-            # 获取开户信息
-            current_card_info = bankCardInfo[card_number]
+            print("card_Info: ", current_card_info)
 
             # 密码匹配
-            if current_card_info.pwd != pwdRes:
+            if current_card_info['pwd'] != pwdRes:
                 print("输入密码不正确， 请重新输入")
                 count += 1
-                continue
             else:
                 break
 
         #     取钱环节
-
-
-
-
         '''
         只能输出100元的纸币， 一次取钱数要求最低0元，最高1000元。
         如果用户输入的金额符合上述要求。则打印出用户取的钱数。
         最后提示用户“交易完成，请取卡”，否则提示用户重新输入金额
         '''
+
+        print("密码正确， 可以开始取钱了")
+        print("只能输出100元的纸币， 一次取钱数要求最低0元，最高1000元。")
+        print()
+
+        get_money = int(input("请输入你要取的金额： "))
+        while get_money < 0 & get_money > 1000 & get_money % 100 == 0:
+            get_money = int(input("请重新输入金额："))
+
+        current_money = current_card_info['money'] - get_money
+
+        print("用户取出了： %d 元" % get_money)
+
+        bankCardInfo['card_number'] = {
+            "money": current_money,
+        }
+
+        print("你的账户余额以及账户信息如下： ", {card_number: bankCardInfo['card_number']})
+        print("交易完成，请取卡")
+        break
+
+
     elif resStr == '3':
         break
     else:
