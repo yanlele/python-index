@@ -22,7 +22,7 @@ while True:
         print('开户操作')
         identity_card = int(input("请输入身份证号："))
         pwd = int(input("请输入交易密码："))
-        money = int(input("请输入出事金额："))
+        money = int(input("请输入初始金额："))
 
         # 生成随机10位数卡号
         card_number = str(random.randint(1000000000, 9999999999))
